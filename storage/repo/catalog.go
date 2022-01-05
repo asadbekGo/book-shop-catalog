@@ -7,20 +7,20 @@ import (
 // CatalogStorageI ...
 type CatalogStorageI interface {
 	CreateAuthor(pb.Author) (pb.Author, error)
-	GetAuthor(pb.ByIdReq) (pb.Author, error)
-	GetAuthors(pb.ListReq) (pb.AuthorListResp, error)
+	GetAuthor(id string) (pb.Author, error)
+	GetAuthors(page, limit int64) ([]*pb.Author, int64, error)
 	UpdateAuthor(pb.Author) (pb.Author, error)
-	DeleteAuthor(pb.ByIdReq) (pb.Empty, error)
+	DeleteAuthor(id string) error
 
 	CreateCategory(pb.Category) (pb.Category, error)
-	GetCategory(pb.ByIdReq) (pb.Category, error)
-	GetCategories(pb.ListReq) (pb.CategoryListResp, error)
+	GetCategory(id string) (pb.Category, error)
+	GetCategories(page, limit int64) ([]*pb.Category, int64, error)
 	UpdateCategory(pb.Category) (pb.Category, error)
-	DeleteCategory(pb.ByIdReq) (pb.Empty, error)
+	DeleteCategory(id string) error
 
 	CreateBook(pb.NewBook) (pb.Book, error)
-	GetBook(pb.ByIdReq) (pb.Book, error)
-	GetBooks(pb.ListReq) (pb.BookListResp, error)
+	GetBook(id string) (pb.Book, error)
+	GetBooks(page, limit int64) ([]*pb.Book, int64, error)
 	UpdateBook(pb.NewBook) (pb.Book, error)
-	DeleteBook(pb.ByIdReq) (pb.Empty, error)
+	DeleteBook(id string) error
 }
