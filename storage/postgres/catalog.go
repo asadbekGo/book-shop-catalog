@@ -47,7 +47,6 @@ func (r *catalogRepo) GetAuthor(id string) (pb.Author, error) {
 		&author.CreatedAt,
 		&author.UpdatedAt,
 	)
-
 	if err != nil {
 		return pb.Author{}, err
 	}
