@@ -2,11 +2,10 @@ package postgres
 
 import (
 	"database/sql"
-	"time"
 
 	"github.com/jmoiron/sqlx"
 
-	pb "github.com/asadbekGo/book-shop-catalog/genproto"
+	pb "github.com/asadbekGo/book-shop-catalog/genproto/catalog_service"
 )
 
 type catalogRepo struct {
@@ -21,8 +20,8 @@ func NewCatalogRepo(db *sqlx.DB) *catalogRepo {
 func (r *catalogRepo) CreateCategory(category pb.Category) (pb.Category, error) {
 	var id string
 	err := r.db.QueryRow(`
-		INSERT INTO category(category_id, name status)
-		VALUES ($1, $2, $3) returning category_id`,
+	INSERT INTO category(category_id, name, updated_at)
+		VALUES ($1, $2, current_timestamp) returning category_id`,
 		category.Id,
 		category.Name,
 	).Scan(&id)
@@ -43,11 +42,12 @@ func (r *catalogRepo) GetCategory(id string) (pb.Category, error) {
 	var category pb.Category
 
 	err := r.db.QueryRow(`
-		SELECT category_id, name FROM category 
-		WHERE category_id=$1`, id).Scan(
+	SELECT category_id, name, created_at, updated_at FROM category WHERE category_id=$1 and deleted_at is null`, id).Scan(
 		&category.Id,
 		&category.Name,
-			)
+		&category.CreatedAt,
+		&category.UpdatedAt,
+	)
 	if err != nil {
 		return pb.Category{}, err
 	}
@@ -59,8 +59,7 @@ func (r *catalogRepo) GetCategories(page, limit int64) ([]*pb.Category, int64, e
 	offset := (page - 1) * limit
 
 	rows, err := r.db.Queryx(`
-		SELECT category_id, name FROM category
-		LIMIT $1 OFFSET $2`, limit, offset)
+	SELECT category_id, name, created_at, updated_at FROM category WHERE deleted_at is null LIMIT $1 OFFSET $2`, limit, offset)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -71,7 +70,7 @@ func (r *catalogRepo) GetCategories(page, limit int64) ([]*pb.Category, int64, e
 
 	var (
 		categories []*pb.Category
-		count int64
+		count      int64
 	)
 
 	for rows.Next() {
@@ -79,6 +78,8 @@ func (r *catalogRepo) GetCategories(page, limit int64) ([]*pb.Category, int64, e
 		err = rows.Scan(
 			&category.Id,
 			&category.Name,
+			&category.CreatedAt,
+			&category.UpdatedAt,
 		)
 		if err != nil {
 			return nil, 0, err
@@ -97,10 +98,10 @@ func (r *catalogRepo) GetCategories(page, limit int64) ([]*pb.Category, int64, e
 
 func (r *catalogRepo) UpdateCategory(category pb.Category) (pb.Category, error) {
 	result, err := r.db.Exec(`
-		UPDATE Category SET name=$1
-		WHERE id=$2`,
-		category.Id, 
+		UPDATE Category SET name=$1, updated_at=current_timestamp
+		WHERE category_id=$2 and deleted_at is null`,
 		category.Name,
+		category.Id,
 	)
 	if err != nil {
 		return pb.Category{}, err
@@ -109,7 +110,7 @@ func (r *catalogRepo) UpdateCategory(category pb.Category) (pb.Category, error) 
 		return pb.Category{}, sql.ErrNoRows
 	}
 
-	category, err = r.Get(category.Id)
+	category, err = r.GetCategory(category.Id)
 	if err != nil {
 		return pb.Category{}, err
 	}
@@ -117,9 +118,9 @@ func (r *catalogRepo) UpdateCategory(category pb.Category) (pb.Category, error) 
 	return category, nil
 }
 
-func (r *catalogRepo) Delete(id string) error {
+func (r *catalogRepo) DeleteCategory(id string) error {
 	result, err := r.db.Exec(`
-		delete * from category where category_id = $1`, id)
+		UPDATE category SET deleted_at=current_timestamp WHERE category_id=$1`, id)
 	if err != nil {
 		return err
 	}
