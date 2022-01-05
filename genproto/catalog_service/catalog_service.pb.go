@@ -27,19 +27,23 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 func init() { proto.RegisterFile("catalog_service.proto", fileDescriptor_69979759328785bd) }
 
 var fileDescriptor_69979759328785bd = []byte{
-	// 187 bytes of a gzipped FileDescriptorProto
+	// 255 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x4d, 0x4e, 0x2c, 0x49,
 	0xcc, 0xc9, 0x4f, 0x8f, 0x2f, 0x4e, 0x2d, 0x2a, 0xcb, 0x4c, 0x4e, 0xd5, 0x2b, 0x28, 0xca, 0x2f,
-	0xc9, 0x17, 0x62, 0x87, 0x0a, 0x4b, 0xf1, 0x42, 0x19, 0x10, 0x71, 0xa3, 0x7e, 0x26, 0x2e, 0x3e,
-	0x67, 0x88, 0x48, 0x30, 0x44, 0x83, 0x90, 0x01, 0x17, 0x8f, 0x73, 0x51, 0x6a, 0x62, 0x49, 0xaa,
-	0x63, 0x69, 0x49, 0x46, 0x7e, 0x91, 0x10, 0xbf, 0x1e, 0x4c, 0x0b, 0x44, 0x40, 0x0a, 0x5d, 0x40,
-	0x48, 0x8f, 0x8b, 0xd3, 0x3d, 0xb5, 0x04, 0xca, 0x11, 0x80, 0xcb, 0x3a, 0x55, 0x7a, 0xa6, 0x04,
-	0xa5, 0x16, 0x62, 0xaa, 0x37, 0xe7, 0xe2, 0x82, 0xab, 0x2f, 0x46, 0xd2, 0xe0, 0x93, 0x59, 0x5c,
-	0x02, 0xd2, 0x20, 0x8e, 0xa6, 0x01, 0x22, 0x5e, 0x5c, 0x00, 0x72, 0x5a, 0x68, 0x41, 0x0a, 0x29,
-	0x4e, 0x33, 0xe0, 0xe2, 0x71, 0x49, 0xcd, 0x49, 0x85, 0xeb, 0xc0, 0x74, 0x1d, 0x1f, 0x5c, 0xc4,
-	0x35, 0xb7, 0xa0, 0xa4, 0xd2, 0x49, 0xe0, 0xc4, 0x23, 0x39, 0xc6, 0x0b, 0x8f, 0xe4, 0x18, 0x1f,
-	0x3c, 0x92, 0x63, 0x9c, 0xf1, 0x58, 0x8e, 0x21, 0x89, 0x0d, 0x1c, 0x54, 0xc6, 0x80, 0x00, 0x00,
-	0x00, 0xff, 0xff, 0x43, 0x16, 0xd4, 0xea, 0x5b, 0x01, 0x00, 0x00,
+	0xc9, 0x17, 0x62, 0x87, 0x0a, 0x4b, 0xf1, 0x42, 0x19, 0x10, 0x71, 0xa3, 0xa5, 0x2c, 0x5c, 0x7c,
+	0xce, 0x10, 0x91, 0x60, 0x88, 0x06, 0x21, 0x03, 0x2e, 0x1e, 0xe7, 0xa2, 0xd4, 0xc4, 0x92, 0x54,
+	0xc7, 0xd2, 0x92, 0x8c, 0xfc, 0x22, 0x21, 0x7e, 0x3d, 0x98, 0x16, 0x88, 0x80, 0x14, 0xba, 0x80,
+	0x90, 0x1e, 0x17, 0xa7, 0x7b, 0x6a, 0x09, 0x94, 0x23, 0x00, 0x97, 0x75, 0xaa, 0xf4, 0x4c, 0x09,
+	0x4a, 0x2d, 0xc4, 0x54, 0x6f, 0xce, 0xc5, 0x05, 0x57, 0x5f, 0x8c, 0xa4, 0xc1, 0x27, 0xb3, 0xb8,
+	0x04, 0xa4, 0x41, 0x1c, 0x4d, 0x03, 0x44, 0xbc, 0xb8, 0x00, 0xe4, 0xb4, 0xd0, 0x82, 0x14, 0x52,
+	0x9c, 0x66, 0xc0, 0xc5, 0xe3, 0x92, 0x9a, 0x93, 0x0a, 0xd7, 0x81, 0xe9, 0x3a, 0x3e, 0xb8, 0x88,
+	0x6b, 0x6e, 0x41, 0x49, 0xa5, 0x90, 0x19, 0x17, 0x1f, 0xc4, 0xfb, 0xce, 0x89, 0x25, 0xa9, 0xe9,
+	0xf9, 0x45, 0x95, 0x42, 0x82, 0x70, 0x15, 0x30, 0x21, 0x29, 0x4c, 0x21, 0x21, 0x23, 0x2e, 0x6e,
+	0xf7, 0xd4, 0x12, 0x38, 0x17, 0xd3, 0x22, 0x2c, 0x7a, 0x6c, 0xb8, 0x78, 0x11, 0x7a, 0x32, 0x53,
+	0xb1, 0x85, 0x85, 0x24, 0x86, 0x2e, 0x78, 0x68, 0x98, 0x71, 0xf1, 0x41, 0x42, 0x83, 0x64, 0x97,
+	0xf2, 0x41, 0xc2, 0x04, 0x8f, 0x63, 0xd1, 0x42, 0xc5, 0x49, 0xe0, 0xc4, 0x23, 0x39, 0xc6, 0x0b,
+	0x8f, 0xe4, 0x18, 0x1f, 0x3c, 0x92, 0x63, 0x9c, 0xf1, 0x58, 0x8e, 0x21, 0x89, 0x0d, 0x9c, 0x80,
+	0x8c, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x5f, 0x77, 0x9c, 0x8d, 0x71, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -59,6 +63,11 @@ type CatalogServiceClient interface {
 	GetAuthors(ctx context.Context, in *ListReq, opts ...grpc.CallOption) (*AuthorListResp, error)
 	UpdateAuthor(ctx context.Context, in *Author, opts ...grpc.CallOption) (*Author, error)
 	DeleteAuthor(ctx context.Context, in *ByIdReq, opts ...grpc.CallOption) (*Empty, error)
+	CreateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
+	GetCategory(ctx context.Context, in *ByIdReq, opts ...grpc.CallOption) (*Category, error)
+	GetCategories(ctx context.Context, in *ListReq, opts ...grpc.CallOption) (*CategoryListResp, error)
+	UpdateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
+	DeleteCategory(ctx context.Context, in *ByIdReq, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type catalogServiceClient struct {
@@ -114,6 +123,51 @@ func (c *catalogServiceClient) DeleteAuthor(ctx context.Context, in *ByIdReq, op
 	return out, nil
 }
 
+func (c *catalogServiceClient) CreateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error) {
+	out := new(Category)
+	err := c.cc.Invoke(ctx, "/catalog.CatalogService/CreateCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) GetCategory(ctx context.Context, in *ByIdReq, opts ...grpc.CallOption) (*Category, error) {
+	out := new(Category)
+	err := c.cc.Invoke(ctx, "/catalog.CatalogService/GetCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) GetCategories(ctx context.Context, in *ListReq, opts ...grpc.CallOption) (*CategoryListResp, error) {
+	out := new(CategoryListResp)
+	err := c.cc.Invoke(ctx, "/catalog.CatalogService/GetCategories", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) UpdateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error) {
+	out := new(Category)
+	err := c.cc.Invoke(ctx, "/catalog.CatalogService/UpdateCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) DeleteCategory(ctx context.Context, in *ByIdReq, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/catalog.CatalogService/DeleteCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CatalogServiceServer is the server API for CatalogService service.
 type CatalogServiceServer interface {
 	CreateAuthor(context.Context, *Author) (*Author, error)
@@ -121,6 +175,11 @@ type CatalogServiceServer interface {
 	GetAuthors(context.Context, *ListReq) (*AuthorListResp, error)
 	UpdateAuthor(context.Context, *Author) (*Author, error)
 	DeleteAuthor(context.Context, *ByIdReq) (*Empty, error)
+	CreateCategory(context.Context, *Category) (*Category, error)
+	GetCategory(context.Context, *ByIdReq) (*Category, error)
+	GetCategories(context.Context, *ListReq) (*CategoryListResp, error)
+	UpdateCategory(context.Context, *Category) (*Category, error)
+	DeleteCategory(context.Context, *ByIdReq) (*Empty, error)
 }
 
 // UnimplementedCatalogServiceServer can be embedded to have forward compatible implementations.
@@ -141,6 +200,21 @@ func (*UnimplementedCatalogServiceServer) UpdateAuthor(ctx context.Context, req 
 }
 func (*UnimplementedCatalogServiceServer) DeleteAuthor(ctx context.Context, req *ByIdReq) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAuthor not implemented")
+}
+func (*UnimplementedCatalogServiceServer) CreateCategory(ctx context.Context, req *Category) (*Category, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCategory not implemented")
+}
+func (*UnimplementedCatalogServiceServer) GetCategory(ctx context.Context, req *ByIdReq) (*Category, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCategory not implemented")
+}
+func (*UnimplementedCatalogServiceServer) GetCategories(ctx context.Context, req *ListReq) (*CategoryListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCategories not implemented")
+}
+func (*UnimplementedCatalogServiceServer) UpdateCategory(ctx context.Context, req *Category) (*Category, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCategory not implemented")
+}
+func (*UnimplementedCatalogServiceServer) DeleteCategory(ctx context.Context, req *ByIdReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCategory not implemented")
 }
 
 func RegisterCatalogServiceServer(s *grpc.Server, srv CatalogServiceServer) {
@@ -237,6 +311,96 @@ func _CatalogService_DeleteAuthor_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CatalogService_CreateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Category)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).CreateCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/catalog.CatalogService/CreateCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).CreateCategory(ctx, req.(*Category))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_GetCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).GetCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/catalog.CatalogService/GetCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).GetCategory(ctx, req.(*ByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_GetCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).GetCategories(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/catalog.CatalogService/GetCategories",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).GetCategories(ctx, req.(*ListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_UpdateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Category)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).UpdateCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/catalog.CatalogService/UpdateCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).UpdateCategory(ctx, req.(*Category))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_DeleteCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).DeleteCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/catalog.CatalogService/DeleteCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).DeleteCategory(ctx, req.(*ByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _CatalogService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "catalog.CatalogService",
 	HandlerType: (*CatalogServiceServer)(nil),
@@ -260,6 +424,26 @@ var _CatalogService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteAuthor",
 			Handler:    _CatalogService_DeleteAuthor_Handler,
+		},
+		{
+			MethodName: "CreateCategory",
+			Handler:    _CatalogService_CreateCategory_Handler,
+		},
+		{
+			MethodName: "GetCategory",
+			Handler:    _CatalogService_GetCategory_Handler,
+		},
+		{
+			MethodName: "GetCategories",
+			Handler:    _CatalogService_GetCategories_Handler,
+		},
+		{
+			MethodName: "UpdateCategory",
+			Handler:    _CatalogService_UpdateCategory_Handler,
+		},
+		{
+			MethodName: "DeleteCategory",
+			Handler:    _CatalogService_DeleteCategory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
