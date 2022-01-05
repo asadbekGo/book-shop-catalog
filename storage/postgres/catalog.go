@@ -19,11 +19,20 @@ func NewCatalogRepo(db *sqlx.DB) *catalogRepo {
 
 func (r *catalogRepo) CreateCategory(category pb.Category) (pb.Category, error) {
 	var id string
+	var parentUUID interface{}
+
+	if category.ParentUUID == "" {
+		parentUUID = nil
+	} else {
+		parentUUID = category.ParentUUID
+	}
+
 	err := r.db.QueryRow(`
-	INSERT INTO category(category_id, name, updated_at)
-		VALUES ($1, $2, current_timestamp) returning category_id`,
+	INSERT INTO category(category_id, name, parent_uuid, updated_at)
+		VALUES ($1, $2, $3, current_timestamp) returning category_id`,
 		category.Id,
 		category.Name,
+		parentUUID,
 	).Scan(&id)
 	if err != nil {
 		return pb.Category{}, err
@@ -40,14 +49,23 @@ func (r *catalogRepo) CreateCategory(category pb.Category) (pb.Category, error) 
 
 func (r *catalogRepo) GetCategory(id string) (pb.Category, error) {
 	var category pb.Category
+	var parentUUID sql.NullString
 
 	err := r.db.QueryRow(`
-	SELECT category_id, name, created_at, updated_at FROM category WHERE category_id=$1 and deleted_at is null`, id).Scan(
+	SELECT category_id, name, parent_uuid, created_at, updated_at FROM category WHERE category_id=$1 and deleted_at is null`, id).Scan(
 		&category.Id,
 		&category.Name,
+		&parentUUID,
 		&category.CreatedAt,
 		&category.UpdatedAt,
 	)
+
+	if parentUUID.Valid {
+		category.ParentUUID = parentUUID.String
+	} else {
+		category.ParentUUID = ""
+	}
+
 	if err != nil {
 		return pb.Category{}, err
 	}
@@ -59,7 +77,7 @@ func (r *catalogRepo) GetCategories(page, limit int64) ([]*pb.Category, int64, e
 	offset := (page - 1) * limit
 
 	rows, err := r.db.Queryx(`
-	SELECT category_id, name, created_at, updated_at FROM category WHERE deleted_at is null LIMIT $1 OFFSET $2`, limit, offset)
+	SELECT category_id, name, parent_uuid, created_at, updated_at FROM category WHERE deleted_at is null LIMIT $1 OFFSET $2`, limit, offset)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -74,15 +92,23 @@ func (r *catalogRepo) GetCategories(page, limit int64) ([]*pb.Category, int64, e
 	)
 
 	for rows.Next() {
+		var parentUUID sql.NullString
 		var category pb.Category
 		err = rows.Scan(
 			&category.Id,
 			&category.Name,
+			&parentUUID,
 			&category.CreatedAt,
 			&category.UpdatedAt,
 		)
 		if err != nil {
 			return nil, 0, err
+		}
+
+		if parentUUID.Valid {
+			category.ParentUUID = parentUUID.String
+		} else {
+			category.ParentUUID = ""
 		}
 
 		categories = append(categories, &category)
@@ -97,10 +123,27 @@ func (r *catalogRepo) GetCategories(page, limit int64) ([]*pb.Category, int64, e
 }
 
 func (r *catalogRepo) UpdateCategory(category pb.Category) (pb.Category, error) {
+	var parentUUID interface{}
+
+	row, err := r.GetCategory(category.Id)
+	if err != nil {
+		return pb.Category{}, nil
+	}
+
+	if category.ParentUUID == "" {
+		if row.ParentUUID == "" {
+			parentUUID = nil
+		} else {
+			parentUUID = row.ParentUUID
+		}
+	} else {
+		parentUUID = category.ParentUUID
+	}
 	result, err := r.db.Exec(`
-		UPDATE Category SET name=$1, updated_at=current_timestamp
-		WHERE category_id=$2 and deleted_at is null`,
+		UPDATE category SET name=$1, parent_uuid=$2, updated_at=current_timestamp
+		WHERE category_id=$3 and deleted_at is null`,
 		category.Name,
+		parentUUID,
 		category.Id,
 	)
 	if err != nil {
@@ -120,7 +163,7 @@ func (r *catalogRepo) UpdateCategory(category pb.Category) (pb.Category, error) 
 
 func (r *catalogRepo) DeleteCategory(id string) error {
 	result, err := r.db.Exec(`
-		UPDATE category SET deleted_at=current_timestamp WHERE category_id=$1`, id)
+		UPDATE category SET deleted_at=current_timestamp WHERE category_id=$1 and deleted_at is null`, id)
 	if err != nil {
 		return err
 	}

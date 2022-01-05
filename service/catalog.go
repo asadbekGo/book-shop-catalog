@@ -26,40 +26,6 @@ func NewCatalogService(storage storage.IStorage, log l.Logger) *CatalogService {
 	}
 }
 
-/*func (s *CatalogService) CreateAuthor(ctx context.Context, req *pb.Author) (*pb.Author, error) {
-	id, err := uuid.NewV4()
-	if err != nil {
-		s.logger.Error("failed while generating uuid", l.Error(err))
-		return nil, status.Error(codes.Internal, "failed generate uuid")
-	}
-	req.Id = id.String()
-
-	author, err := s.storage.Catalog().CreateAuthor(*req)
-	if err != nil {
-		s.logger.Error("failed to create author", l.Error(err))
-		return nil, status.Error(codes.Internal, "failed to create author")
-	}
-
-	return &author, nil
-}
-*/
-/*func (s *CatalogService) GetAuthor(ctx context.Context, req *pb.Author) (*pb.Author, error) {
-	id, err := uuid.NewV4()
-	if err != nil {
-		s.logger.Error("failed while generating uuid", l.Error(err))
-		return nil, status.Error(codes.Internal, "failed generate uuid")
-	}
-	req.Id = id.String()
-
-	author, err := s.storage.Catalog().CreateAuthor(*req)
-	if err != nil {
-		s.logger.Error("failed to create author", l.Error(err))
-		return nil, status.Error(codes.Internal, "failed to create author")
-	}
-
-	return &author, nil
-}
-*/
 func (s *CatalogService) CreateCategory(ctx context.Context, req *pb.Category) (*pb.Category, error) {
 	id, err := uuid.NewV4()
 	if err != nil {
@@ -119,5 +85,3 @@ func (s *CatalogService) DeleteCategory(ctx context.Context, req *pb.ByIdReq) (*
 
 	return &pb.Empty{}, nil
 }
-
-func CreateAuthor(ctx context.Context, in *pb.Author) (*pb.Author, error) { return nil, nil }
