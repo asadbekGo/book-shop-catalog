@@ -42,3 +42,20 @@ func (s *CatalogService) CreateAuthor(ctx context.Context, req *pb.Author) (*pb.
 
 	return &author, nil
 }
+
+func (s *CatalogService) GetAuthor(ctx context.Context, req *pb.Author) (*pb.Author, error) {
+	id, err := uuid.NewV4()
+	if err != nil {
+		s.logger.Error("failed while generating uuid", l.Error(err))
+		return nil, status.Error(codes.Internal, "failed generate uuid")
+	}
+	req.Id = id.String()
+
+	author, err := s.storage.Catalog().CreateAuthor(*req)
+	if err != nil {
+		s.logger.Error("failed to create author", l.Error(err))
+		return nil, status.Error(codes.Internal, "failed to create author")
+	}
+
+	return &author, nil
+}
