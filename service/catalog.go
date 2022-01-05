@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	pb "github.com/asadbekGo/book-shop-catalog/genproto"
+	pb "github.com/asadbekGo/book-shop-catalog/genproto/catalog_service"
 	l "github.com/asadbekGo/book-shop-catalog/pkg/logger"
 	"github.com/asadbekGo/book-shop-catalog/storage"
 )
@@ -43,8 +43,8 @@ func (s *CatalogService) CreateAuthor(ctx context.Context, req *pb.Author) (*pb.
 	return &author, nil
 }
 
-func (s *CatalogService) GetAuthor(ctx context.Context, req *pb.Author) (*pb.Author, error) {
-	author, err := s.storage.Catalog().CreateAuthor(*req)
+func (s *CatalogService) GetAuthor(ctx context.Context, req *pb.ByIdReq) (*pb.Author, error) {
+	author, err := s.storage.Catalog().GetAuthor(req.Id)
 	if err != nil {
 		s.logger.Error("failed to get author", l.Error(err))
 		return nil, status.Error(codes.Internal, "failed to get author")
