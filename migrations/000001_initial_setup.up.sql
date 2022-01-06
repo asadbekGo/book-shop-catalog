@@ -13,5 +13,10 @@ create table book (
     book_id UUID not null primary key,
     name varchar(128) not null,
     author_id uuid not null references author(author_id),
-    parent_uuid uuid not null references category(parent_uuid)
+);
+
+create table book_category (
+    id uuid not null primary key,
+    book_id uuid not null references book(book_id),
+    category_id uuid not null references category(category_id)
 );
