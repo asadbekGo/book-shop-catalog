@@ -173,15 +173,14 @@ func (m *Category) GetUpdatedAt() string {
 }
 
 type Book struct {
-	Id                   string      `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name                 string      `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Author               *Author     `protobuf:"bytes,3,opt,name=author,proto3" json:"author,omitempty"`
-	CategoryId           []*Category `protobuf:"bytes,4,rep,name=categoryId,proto3" json:"categoryId,omitempty"`
-	CreatedAt            string      `protobuf:"bytes,5,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
-	UpdatedAt            string      `protobuf:"bytes,6,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
-	XXX_unrecognized     []byte      `json:"-"`
-	XXX_sizecache        int32       `json:"-"`
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	AuthorId             string   `protobuf:"bytes,3,opt,name=authorId,proto3" json:"authorId,omitempty"`
+	CreatedAt            string   `protobuf:"bytes,4,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	UpdatedAt            string   `protobuf:"bytes,5,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *Book) Reset()         { *m = Book{} }
@@ -231,18 +230,11 @@ func (m *Book) GetName() string {
 	return ""
 }
 
-func (m *Book) GetAuthor() *Author {
+func (m *Book) GetAuthorId() string {
 	if m != nil {
-		return m.Author
+		return m.AuthorId
 	}
-	return nil
-}
-
-func (m *Book) GetCategoryId() []*Category {
-	if m != nil {
-		return m.CategoryId
-	}
-	return nil
+	return ""
 }
 
 func (m *Book) GetCreatedAt() string {
@@ -471,6 +463,69 @@ func (m *CategoryListResp) GetCount() int64 {
 	return 0
 }
 
+type BookListReq struct {
+	Page                 int64             `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	Limit                int64             `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	Filters              map[string]string `protobuf:"bytes,3,rep,name=filters,proto3" json:"filters,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
+}
+
+func (m *BookListReq) Reset()         { *m = BookListReq{} }
+func (m *BookListReq) String() string { return proto.CompactTextString(m) }
+func (*BookListReq) ProtoMessage()    {}
+func (*BookListReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0abbfcf058acdf89, []int{7}
+}
+func (m *BookListReq) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *BookListReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_BookListReq.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *BookListReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BookListReq.Merge(m, src)
+}
+func (m *BookListReq) XXX_Size() int {
+	return m.Size()
+}
+func (m *BookListReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_BookListReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BookListReq proto.InternalMessageInfo
+
+func (m *BookListReq) GetPage() int64 {
+	if m != nil {
+		return m.Page
+	}
+	return 0
+}
+
+func (m *BookListReq) GetLimit() int64 {
+	if m != nil {
+		return m.Limit
+	}
+	return 0
+}
+
+func (m *BookListReq) GetFilters() map[string]string {
+	if m != nil {
+		return m.Filters
+	}
+	return nil
+}
+
 type BookListResp struct {
 	Books                []*Book  `protobuf:"bytes,1,rep,name=books,proto3" json:"books,omitempty"`
 	Count                int64    `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
@@ -483,7 +538,7 @@ func (m *BookListResp) Reset()         { *m = BookListResp{} }
 func (m *BookListResp) String() string { return proto.CompactTextString(m) }
 func (*BookListResp) ProtoMessage()    {}
 func (*BookListResp) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0abbfcf058acdf89, []int{7}
+	return fileDescriptor_0abbfcf058acdf89, []int{8}
 }
 func (m *BookListResp) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -526,6 +581,171 @@ func (m *BookListResp) GetCount() int64 {
 	return 0
 }
 
+type BookCategory struct {
+	BookId               string   `protobuf:"bytes,1,opt,name=bookId,proto3" json:"bookId,omitempty"`
+	CategoryId           string   `protobuf:"bytes,2,opt,name=categoryId,proto3" json:"categoryId,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *BookCategory) Reset()         { *m = BookCategory{} }
+func (m *BookCategory) String() string { return proto.CompactTextString(m) }
+func (*BookCategory) ProtoMessage()    {}
+func (*BookCategory) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0abbfcf058acdf89, []int{9}
+}
+func (m *BookCategory) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *BookCategory) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_BookCategory.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *BookCategory) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BookCategory.Merge(m, src)
+}
+func (m *BookCategory) XXX_Size() int {
+	return m.Size()
+}
+func (m *BookCategory) XXX_DiscardUnknown() {
+	xxx_messageInfo_BookCategory.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BookCategory proto.InternalMessageInfo
+
+func (m *BookCategory) GetBookId() string {
+	if m != nil {
+		return m.BookId
+	}
+	return ""
+}
+
+func (m *BookCategory) GetCategoryId() string {
+	if m != nil {
+		return m.CategoryId
+	}
+	return ""
+}
+
+type BookCategoryResp struct {
+	Book                 *Book       `protobuf:"bytes,1,opt,name=book,proto3" json:"book,omitempty"`
+	Category             []*Category `protobuf:"bytes,2,rep,name=category,proto3" json:"category,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
+}
+
+func (m *BookCategoryResp) Reset()         { *m = BookCategoryResp{} }
+func (m *BookCategoryResp) String() string { return proto.CompactTextString(m) }
+func (*BookCategoryResp) ProtoMessage()    {}
+func (*BookCategoryResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0abbfcf058acdf89, []int{10}
+}
+func (m *BookCategoryResp) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *BookCategoryResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_BookCategoryResp.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *BookCategoryResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BookCategoryResp.Merge(m, src)
+}
+func (m *BookCategoryResp) XXX_Size() int {
+	return m.Size()
+}
+func (m *BookCategoryResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_BookCategoryResp.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BookCategoryResp proto.InternalMessageInfo
+
+func (m *BookCategoryResp) GetBook() *Book {
+	if m != nil {
+		return m.Book
+	}
+	return nil
+}
+
+func (m *BookCategoryResp) GetCategory() []*Category {
+	if m != nil {
+		return m.Category
+	}
+	return nil
+}
+
+type BookCategoryListResp struct {
+	BookCategory         []*BookCategoryResp `protobuf:"bytes,1,rep,name=bookCategory,proto3" json:"bookCategory,omitempty"`
+	Count                int64               `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *BookCategoryListResp) Reset()         { *m = BookCategoryListResp{} }
+func (m *BookCategoryListResp) String() string { return proto.CompactTextString(m) }
+func (*BookCategoryListResp) ProtoMessage()    {}
+func (*BookCategoryListResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0abbfcf058acdf89, []int{11}
+}
+func (m *BookCategoryListResp) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *BookCategoryListResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_BookCategoryListResp.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *BookCategoryListResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BookCategoryListResp.Merge(m, src)
+}
+func (m *BookCategoryListResp) XXX_Size() int {
+	return m.Size()
+}
+func (m *BookCategoryListResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_BookCategoryListResp.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BookCategoryListResp proto.InternalMessageInfo
+
+func (m *BookCategoryListResp) GetBookCategory() []*BookCategoryResp {
+	if m != nil {
+		return m.BookCategory
+	}
+	return nil
+}
+
+func (m *BookCategoryListResp) GetCount() int64 {
+	if m != nil {
+		return m.Count
+	}
+	return 0
+}
+
 type Empty struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -536,7 +756,7 @@ func (m *Empty) Reset()         { *m = Empty{} }
 func (m *Empty) String() string { return proto.CompactTextString(m) }
 func (*Empty) ProtoMessage()    {}
 func (*Empty) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0abbfcf058acdf89, []int{8}
+	return fileDescriptor_0abbfcf058acdf89, []int{12}
 }
 func (m *Empty) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -573,38 +793,51 @@ func init() {
 	proto.RegisterType((*ListReq)(nil), "catalog.ListReq")
 	proto.RegisterType((*AuthorListResp)(nil), "catalog.AuthorListResp")
 	proto.RegisterType((*CategoryListResp)(nil), "catalog.CategoryListResp")
+	proto.RegisterType((*BookListReq)(nil), "catalog.BookListReq")
+	proto.RegisterMapType((map[string]string)(nil), "catalog.BookListReq.FiltersEntry")
 	proto.RegisterType((*BookListResp)(nil), "catalog.BookListResp")
+	proto.RegisterType((*BookCategory)(nil), "catalog.BookCategory")
+	proto.RegisterType((*BookCategoryResp)(nil), "catalog.BookCategoryResp")
+	proto.RegisterType((*BookCategoryListResp)(nil), "catalog.BookCategoryListResp")
 	proto.RegisterType((*Empty)(nil), "catalog.Empty")
 }
 
 func init() { proto.RegisterFile("catalog.proto", fileDescriptor_0abbfcf058acdf89) }
 
 var fileDescriptor_0abbfcf058acdf89 = []byte{
-	// 375 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x93, 0xcb, 0x4e, 0xc2, 0x40,
-	0x14, 0x86, 0x1d, 0x7a, 0x93, 0x83, 0x20, 0x4e, 0x5c, 0xd4, 0xc4, 0x34, 0xa4, 0x2e, 0xc4, 0x0d,
-	0x89, 0xf0, 0x04, 0xa0, 0x2e, 0x9a, 0xb8, 0x71, 0x12, 0x56, 0xae, 0x86, 0x76, 0x02, 0x13, 0x2e,
-	0x53, 0xcb, 0xb0, 0xe0, 0x15, 0x7c, 0x02, 0x9f, 0xc7, 0x95, 0x4b, 0x1f, 0xc1, 0xe0, 0x8b, 0x98,
-	0xce, 0xb4, 0xe5, 0x62, 0x20, 0xec, 0xe6, 0x9c, 0xff, 0xf4, 0x9f, 0xf3, 0xfd, 0xcd, 0x40, 0x35,
-	0xa4, 0x92, 0x4e, 0xc4, 0xb0, 0x15, 0x27, 0x42, 0x0a, 0xec, 0x64, 0xa5, 0x3f, 0x02, 0xbb, 0xbb,
-	0x90, 0x23, 0x91, 0xe0, 0x1a, 0x94, 0x78, 0xe4, 0xa2, 0x06, 0x6a, 0x96, 0x49, 0x89, 0x47, 0x18,
-	0x83, 0x39, 0xa3, 0x53, 0xe6, 0x96, 0x54, 0x47, 0x9d, 0xf1, 0x35, 0x94, 0xc3, 0x84, 0x51, 0xc9,
-	0xa2, 0xae, 0x74, 0x0d, 0x25, 0xac, 0x1b, 0xa9, 0xba, 0x88, 0xa3, 0x4c, 0x35, 0xb5, 0x5a, 0x34,
-	0xfc, 0x77, 0x04, 0xa7, 0x0f, 0x54, 0xb2, 0xa1, 0x48, 0x96, 0x47, 0x5d, 0xe6, 0x01, 0xc4, 0x34,
-	0x61, 0x33, 0xd9, 0xef, 0x07, 0x8f, 0xd9, 0x6d, 0x1b, 0x9d, 0xed, 0x65, 0xcc, 0x83, 0xcb, 0x58,
-	0xbb, 0xcb, 0x7c, 0x22, 0x30, 0x7b, 0x42, 0x8c, 0x8f, 0x5a, 0xe4, 0x16, 0x6c, 0xaa, 0x32, 0x52,
-	0x4b, 0x54, 0xda, 0xe7, 0xad, 0x3c, 0x4c, 0x1d, 0x1d, 0xc9, 0x64, 0x7c, 0x0f, 0x10, 0x66, 0x84,
-	0x41, 0xe4, 0x9a, 0x0d, 0xa3, 0x59, 0x69, 0x5f, 0x14, 0xc3, 0x39, 0x3c, 0xd9, 0x18, 0xda, 0x86,
-	0xb0, 0x0e, 0x42, 0xd8, 0xbb, 0x10, 0x57, 0xe0, 0xf4, 0x96, 0x41, 0x44, 0xd8, 0xdb, 0x2e, 0x86,
-	0xdf, 0x01, 0xe7, 0x99, 0xcf, 0x65, 0x2a, 0x61, 0x30, 0x63, 0x3a, 0x64, 0x4a, 0x34, 0x88, 0x3a,
-	0xe3, 0x4b, 0xb0, 0x26, 0x7c, 0xca, 0xa5, 0xc2, 0x34, 0x88, 0x2e, 0xfc, 0x17, 0xa8, 0x69, 0x20,
-	0xfd, 0xe9, 0x3c, 0xc6, 0x77, 0xe0, 0x68, 0xb4, 0xb9, 0x8b, 0x14, 0xcd, 0x3f, 0xf4, 0x5c, 0x4f,
-	0x2d, 0x43, 0xb1, 0x98, 0x15, 0x96, 0xaa, 0xf0, 0x5f, 0xa1, 0x9e, 0x63, 0x17, 0xa6, 0xeb, 0x94,
-	0x38, 0xcb, 0x7d, 0x0f, 0xa4, 0xc4, 0xd9, 0x3e, 0xf3, 0x00, 0xce, 0xd2, 0x7f, 0x58, 0x18, 0xdf,
-	0x80, 0x35, 0x10, 0x62, 0x9c, 0x7b, 0x56, 0x0b, 0xcf, 0x74, 0x8a, 0x68, 0x6d, 0x8f, 0x95, 0x03,
-	0xd6, 0xd3, 0x34, 0x96, 0xcb, 0x5e, 0xfd, 0x6b, 0xe5, 0xa1, 0xef, 0x95, 0x87, 0x7e, 0x56, 0x1e,
-	0xfa, 0xf8, 0xf5, 0x4e, 0x06, 0xb6, 0x7a, 0x31, 0x9d, 0xbf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x71,
-	0x7b, 0x13, 0x42, 0x42, 0x03, 0x00, 0x00,
+	// 501 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x54, 0xcb, 0x6e, 0xd3, 0x40,
+	0x14, 0x65, 0x6c, 0xa7, 0x4e, 0x6f, 0xd3, 0x12, 0x46, 0x15, 0x72, 0x2b, 0x64, 0xb5, 0x66, 0x53,
+	0x16, 0x44, 0x82, 0x6e, 0x50, 0x11, 0x8b, 0x06, 0x5a, 0xc9, 0x12, 0x1b, 0x46, 0xea, 0x8a, 0xd5,
+	0x24, 0x1e, 0x52, 0x2b, 0x8f, 0x31, 0xf6, 0x04, 0xc9, 0x5b, 0x96, 0x7c, 0x01, 0x9f, 0xc1, 0x67,
+	0xb0, 0xe4, 0x13, 0x50, 0xf8, 0x11, 0x34, 0xcf, 0x4e, 0x8a, 0x82, 0x8a, 0xd8, 0xcd, 0xbd, 0xe7,
+	0xce, 0x39, 0xc7, 0x67, 0x66, 0x0c, 0xbb, 0x63, 0x2a, 0xe8, 0x8c, 0x4f, 0x06, 0x55, 0xcd, 0x05,
+	0xc7, 0xb1, 0x29, 0xb3, 0x6b, 0xd8, 0x3a, 0x5f, 0x8a, 0x6b, 0x5e, 0xe3, 0x3d, 0x08, 0xca, 0x22,
+	0x41, 0x47, 0xe8, 0x64, 0x9b, 0x04, 0x65, 0x81, 0x31, 0x44, 0x0b, 0x3a, 0x67, 0x49, 0xa0, 0x3a,
+	0x6a, 0x8d, 0x1f, 0xc1, 0xf6, 0xb8, 0x66, 0x54, 0xb0, 0xe2, 0x5c, 0x24, 0xa1, 0x02, 0x6e, 0x1a,
+	0x12, 0x5d, 0x56, 0x85, 0x41, 0x23, 0x8d, 0xba, 0x46, 0xf6, 0x05, 0x41, 0xf7, 0x35, 0x15, 0x6c,
+	0xc2, 0xeb, 0xf6, 0x4e, 0x62, 0x29, 0x40, 0x45, 0x6b, 0xb6, 0x10, 0x57, 0x57, 0xf9, 0x1b, 0xa3,
+	0xe6, 0x75, 0xd6, 0xcd, 0x44, 0x7f, 0x35, 0xd3, 0xb9, 0x6d, 0xe6, 0x33, 0x82, 0x68, 0xc8, 0xf9,
+	0xf4, 0x4e, 0x46, 0x0e, 0xa1, 0x4b, 0x55, 0x46, 0x79, 0x61, 0x6c, 0xb8, 0xfa, 0xbf, 0x4c, 0x1c,
+	0x40, 0x3c, 0x6c, 0xf3, 0x82, 0xb0, 0x8f, 0xb7, 0x6d, 0x64, 0xa7, 0x10, 0xbf, 0x2d, 0x1b, 0x21,
+	0x21, 0x0c, 0x51, 0x45, 0x27, 0x4c, 0x81, 0x21, 0x51, 0x6b, 0xbc, 0x0f, 0x9d, 0x59, 0x39, 0x2f,
+	0x85, 0xb2, 0x19, 0x12, 0x5d, 0x64, 0xef, 0x60, 0x4f, 0x9f, 0xa5, 0xde, 0xda, 0x54, 0xf8, 0x09,
+	0xc4, 0xda, 0x69, 0x93, 0xa0, 0xa3, 0xf0, 0x64, 0xe7, 0xf9, 0xfd, 0x81, 0xbd, 0x07, 0x7a, 0x92,
+	0x58, 0x5c, 0x52, 0x8e, 0xf9, 0x72, 0xe1, 0x28, 0x55, 0x91, 0xbd, 0x87, 0xbe, 0x3d, 0x33, 0x47,
+	0xfa, 0x0c, 0x60, 0xac, 0x7b, 0x25, 0xb3, 0xbc, 0x0f, 0x1c, 0xaf, 0x1d, 0x27, 0xde, 0xd0, 0x06,
+	0xf2, 0x6f, 0x08, 0x76, 0xe4, 0x21, 0xfc, 0xf3, 0x97, 0xe2, 0x97, 0x10, 0x7f, 0x28, 0x67, 0x82,
+	0xd5, 0x4d, 0x12, 0x2a, 0xfd, 0x63, 0xa7, 0xef, 0x11, 0x0e, 0x2e, 0xf5, 0xcc, 0xc5, 0x42, 0xd4,
+	0x2d, 0xb1, 0x3b, 0x0e, 0xcf, 0xa0, 0xe7, 0x03, 0xb8, 0x0f, 0xe1, 0x94, 0xb5, 0x26, 0x7c, 0xb9,
+	0x94, 0xa2, 0x9f, 0xe8, 0x6c, 0x69, 0x6f, 0x81, 0x2e, 0xce, 0x82, 0x17, 0x28, 0xcb, 0xa1, 0x77,
+	0x23, 0xd0, 0x54, 0xf8, 0x31, 0x74, 0x46, 0x9c, 0x4f, 0x6d, 0x0c, 0xbb, 0x6b, 0x36, 0x88, 0xc6,
+	0x36, 0x7c, 0xfd, 0xa5, 0xa6, 0x72, 0x4f, 0xe2, 0x21, 0x6c, 0xc9, 0xf1, 0xdc, 0x5e, 0x03, 0x53,
+	0xc9, 0x67, 0x60, 0x92, 0x6c, 0xf3, 0xc2, 0x38, 0xf2, 0x3a, 0x59, 0x01, 0x7d, 0x9f, 0x47, 0xd9,
+	0x3a, 0x86, 0x48, 0xee, 0x56, 0x4c, 0x7f, 0xb8, 0x52, 0x10, 0x7e, 0x0a, 0x5d, 0x4b, 0x92, 0x04,
+	0x9b, 0xce, 0xd0, 0x8d, 0x64, 0x53, 0xd8, 0xf7, 0x55, 0x5c, 0x00, 0xaf, 0xa0, 0x37, 0xf2, 0xfa,
+	0x26, 0x87, 0x83, 0x35, 0x45, 0xdf, 0x1a, 0x59, 0x1b, 0xdf, 0x10, 0x4d, 0x0c, 0x9d, 0x8b, 0x79,
+	0x25, 0xda, 0x61, 0xff, 0xfb, 0x2a, 0x45, 0x3f, 0x56, 0x29, 0xfa, 0xb9, 0x4a, 0xd1, 0xd7, 0x5f,
+	0xe9, 0xbd, 0xd1, 0x96, 0xfa, 0x7f, 0x9d, 0xfe, 0x0e, 0x00, 0x00, 0xff, 0xff, 0xbd, 0x09, 0x39,
+	0x16, 0xd0, 0x04, 0x00, 0x00,
 }
 
 func (m *Author) Marshal() (dAtA []byte, err error) {
@@ -753,38 +986,19 @@ func (m *Book) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.UpdatedAt)
 		i = encodeVarintCatalog(dAtA, i, uint64(len(m.UpdatedAt)))
 		i--
-		dAtA[i] = 0x32
+		dAtA[i] = 0x2a
 	}
 	if len(m.CreatedAt) > 0 {
 		i -= len(m.CreatedAt)
 		copy(dAtA[i:], m.CreatedAt)
 		i = encodeVarintCatalog(dAtA, i, uint64(len(m.CreatedAt)))
 		i--
-		dAtA[i] = 0x2a
+		dAtA[i] = 0x22
 	}
-	if len(m.CategoryId) > 0 {
-		for iNdEx := len(m.CategoryId) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.CategoryId[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintCatalog(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0x22
-		}
-	}
-	if m.Author != nil {
-		{
-			size, err := m.Author.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintCatalog(dAtA, i, uint64(size))
-		}
+	if len(m.AuthorId) > 0 {
+		i -= len(m.AuthorId)
+		copy(dAtA[i:], m.AuthorId)
+		i = encodeVarintCatalog(dAtA, i, uint64(len(m.AuthorId)))
 		i--
 		dAtA[i] = 0x1a
 	}
@@ -968,6 +1182,62 @@ func (m *CategoryListResp) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *BookListReq) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *BookListReq) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *BookListReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Filters) > 0 {
+		for k := range m.Filters {
+			v := m.Filters[k]
+			baseI := i
+			i -= len(v)
+			copy(dAtA[i:], v)
+			i = encodeVarintCatalog(dAtA, i, uint64(len(v)))
+			i--
+			dAtA[i] = 0x12
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintCatalog(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintCatalog(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x1a
+		}
+	}
+	if m.Limit != 0 {
+		i = encodeVarintCatalog(dAtA, i, uint64(m.Limit))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.Page != 0 {
+		i = encodeVarintCatalog(dAtA, i, uint64(m.Page))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
 func (m *BookListResp) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -1001,6 +1271,146 @@ func (m *BookListResp) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		for iNdEx := len(m.Books) - 1; iNdEx >= 0; iNdEx-- {
 			{
 				size, err := m.Books[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintCatalog(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *BookCategory) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *BookCategory) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *BookCategory) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.CategoryId) > 0 {
+		i -= len(m.CategoryId)
+		copy(dAtA[i:], m.CategoryId)
+		i = encodeVarintCatalog(dAtA, i, uint64(len(m.CategoryId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.BookId) > 0 {
+		i -= len(m.BookId)
+		copy(dAtA[i:], m.BookId)
+		i = encodeVarintCatalog(dAtA, i, uint64(len(m.BookId)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *BookCategoryResp) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *BookCategoryResp) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *BookCategoryResp) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Category) > 0 {
+		for iNdEx := len(m.Category) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Category[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintCatalog(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x12
+		}
+	}
+	if m.Book != nil {
+		{
+			size, err := m.Book.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintCatalog(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *BookCategoryListResp) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *BookCategoryListResp) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *BookCategoryListResp) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if m.Count != 0 {
+		i = encodeVarintCatalog(dAtA, i, uint64(m.Count))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.BookCategory) > 0 {
+		for iNdEx := len(m.BookCategory) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.BookCategory[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -1126,15 +1536,9 @@ func (m *Book) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovCatalog(uint64(l))
 	}
-	if m.Author != nil {
-		l = m.Author.Size()
+	l = len(m.AuthorId)
+	if l > 0 {
 		n += 1 + l + sovCatalog(uint64(l))
-	}
-	if len(m.CategoryId) > 0 {
-		for _, e := range m.CategoryId {
-			l = e.Size()
-			n += 1 + l + sovCatalog(uint64(l))
-		}
 	}
 	l = len(m.CreatedAt)
 	if l > 0 {
@@ -1226,6 +1630,32 @@ func (m *CategoryListResp) Size() (n int) {
 	return n
 }
 
+func (m *BookListReq) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Page != 0 {
+		n += 1 + sovCatalog(uint64(m.Page))
+	}
+	if m.Limit != 0 {
+		n += 1 + sovCatalog(uint64(m.Limit))
+	}
+	if len(m.Filters) > 0 {
+		for k, v := range m.Filters {
+			_ = k
+			_ = v
+			mapEntrySize := 1 + len(k) + sovCatalog(uint64(len(k))) + 1 + len(v) + sovCatalog(uint64(len(v)))
+			n += mapEntrySize + 1 + sovCatalog(uint64(mapEntrySize))
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
 func (m *BookListResp) Size() (n int) {
 	if m == nil {
 		return 0
@@ -1234,6 +1664,69 @@ func (m *BookListResp) Size() (n int) {
 	_ = l
 	if len(m.Books) > 0 {
 		for _, e := range m.Books {
+			l = e.Size()
+			n += 1 + l + sovCatalog(uint64(l))
+		}
+	}
+	if m.Count != 0 {
+		n += 1 + sovCatalog(uint64(m.Count))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *BookCategory) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.BookId)
+	if l > 0 {
+		n += 1 + l + sovCatalog(uint64(l))
+	}
+	l = len(m.CategoryId)
+	if l > 0 {
+		n += 1 + l + sovCatalog(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *BookCategoryResp) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Book != nil {
+		l = m.Book.Size()
+		n += 1 + l + sovCatalog(uint64(l))
+	}
+	if len(m.Category) > 0 {
+		for _, e := range m.Category {
+			l = e.Size()
+			n += 1 + l + sovCatalog(uint64(l))
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *BookCategoryListResp) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.BookCategory) > 0 {
+		for _, e := range m.BookCategory {
 			l = e.Size()
 			n += 1 + l + sovCatalog(uint64(l))
 		}
@@ -1750,9 +2243,9 @@ func (m *Book) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Author", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field AuthorId", wireType)
 			}
-			var msglen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowCatalog
@@ -1762,63 +2255,25 @@ func (m *Book) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				msglen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if msglen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthCatalog
 			}
-			postIndex := iNdEx + msglen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthCatalog
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Author == nil {
-				m.Author = &Author{}
-			}
-			if err := m.Author.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
+			m.AuthorId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field CategoryId", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowCatalog
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthCatalog
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthCatalog
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.CategoryId = append(m.CategoryId, &Category{})
-			if err := m.CategoryId[len(m.CategoryId)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 5:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CreatedAt", wireType)
 			}
@@ -1850,7 +2305,7 @@ func (m *Book) Unmarshal(dAtA []byte) error {
 			}
 			m.CreatedAt = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 6:
+		case 5:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field UpdatedAt", wireType)
 			}
@@ -2284,6 +2739,222 @@ func (m *CategoryListResp) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+func (m *BookListReq) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCatalog
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: BookListReq: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: BookListReq: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Page", wireType)
+			}
+			m.Page = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCatalog
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Page |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Limit", wireType)
+			}
+			m.Limit = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCatalog
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Limit |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Filters", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCatalog
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Filters == nil {
+				m.Filters = make(map[string]string)
+			}
+			var mapkey string
+			var mapvalue string
+			for iNdEx < postIndex {
+				entryPreIndex := iNdEx
+				var wire uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowCatalog
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					wire |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				fieldNum := int32(wire >> 3)
+				if fieldNum == 1 {
+					var stringLenmapkey uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowCatalog
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapkey |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapkey := int(stringLenmapkey)
+					if intStringLenmapkey < 0 {
+						return ErrInvalidLengthCatalog
+					}
+					postStringIndexmapkey := iNdEx + intStringLenmapkey
+					if postStringIndexmapkey < 0 {
+						return ErrInvalidLengthCatalog
+					}
+					if postStringIndexmapkey > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
+					iNdEx = postStringIndexmapkey
+				} else if fieldNum == 2 {
+					var stringLenmapvalue uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowCatalog
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapvalue |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapvalue := int(stringLenmapvalue)
+					if intStringLenmapvalue < 0 {
+						return ErrInvalidLengthCatalog
+					}
+					postStringIndexmapvalue := iNdEx + intStringLenmapvalue
+					if postStringIndexmapvalue < 0 {
+						return ErrInvalidLengthCatalog
+					}
+					if postStringIndexmapvalue > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapvalue = string(dAtA[iNdEx:postStringIndexmapvalue])
+					iNdEx = postStringIndexmapvalue
+				} else {
+					iNdEx = entryPreIndex
+					skippy, err := skipCatalog(dAtA[iNdEx:])
+					if err != nil {
+						return err
+					}
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
+						return ErrInvalidLengthCatalog
+					}
+					if (iNdEx + skippy) > postIndex {
+						return io.ErrUnexpectedEOF
+					}
+					iNdEx += skippy
+				}
+			}
+			m.Filters[mapkey] = mapvalue
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCatalog(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
 func (m *BookListResp) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2344,6 +3015,346 @@ func (m *BookListResp) Unmarshal(dAtA []byte) error {
 			}
 			m.Books = append(m.Books, &Book{})
 			if err := m.Books[len(m.Books)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Count", wireType)
+			}
+			m.Count = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCatalog
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Count |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCatalog(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *BookCategory) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCatalog
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: BookCategory: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: BookCategory: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field BookId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCatalog
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.BookId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CategoryId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCatalog
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.CategoryId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCatalog(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *BookCategoryResp) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCatalog
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: BookCategoryResp: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: BookCategoryResp: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Book", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCatalog
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Book == nil {
+				m.Book = &Book{}
+			}
+			if err := m.Book.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Category", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCatalog
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Category = append(m.Category, &Category{})
+			if err := m.Category[len(m.Category)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCatalog(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *BookCategoryListResp) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCatalog
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: BookCategoryListResp: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: BookCategoryListResp: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field BookCategory", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCatalog
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.BookCategory = append(m.BookCategory, &BookCategoryResp{})
+			if err := m.BookCategory[len(m.BookCategory)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

@@ -18,7 +18,7 @@ func (r *catalogRepo) CreateCategory(category pb.Category) (pb.Category, error) 
 
 	err := r.db.QueryRow(`
 	INSERT INTO category(category_id, name, parent_uuid, updated_at)
-		VALUES ($1, $2, $3, current_timestamp) returning category_id`,
+		VALUES ($1, $2, $3, current_timestamp) RETURNING category_id`,
 		category.Id,
 		category.Name,
 		parentUUID,
@@ -41,7 +41,7 @@ func (r *catalogRepo) GetCategory(id string) (pb.Category, error) {
 	var parentUUID sql.NullString
 
 	err := r.db.QueryRow(`
-	SELECT category_id, name, parent_uuid, created_at, updated_at FROM category WHERE category_id=$1 and deleted_at is null`, id).Scan(
+	SELECT category_id, name, parent_uuid, created_at, updated_at FROM category WHERE category_id=$1 and deleted_at IS NULL`, id).Scan(
 		&category.Id,
 		&category.Name,
 		&parentUUID,
@@ -66,7 +66,7 @@ func (r *catalogRepo) GetCategories(page, limit int64) ([]*pb.Category, int64, e
 	offset := (page - 1) * limit
 
 	rows, err := r.db.Queryx(`
-	SELECT category_id, name, parent_uuid, created_at, updated_at FROM category WHERE deleted_at is null LIMIT $1 OFFSET $2`, limit, offset)
+	SELECT category_id, name, parent_uuid, created_at, updated_at FROM category WHERE deleted_at IS NULL LIMIT $1 OFFSET $2`, limit, offset)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -130,7 +130,7 @@ func (r *catalogRepo) UpdateCategory(category pb.Category) (pb.Category, error) 
 	}
 	result, err := r.db.Exec(`
 		UPDATE category SET name=$1, parent_uuid=$2, updated_at=current_timestamp
-		WHERE category_id=$3 and deleted_at is null`,
+		WHERE category_id=$3 AND deleted_at IS NULL`,
 		category.Name,
 		parentUUID,
 		category.Id,
@@ -152,7 +152,7 @@ func (r *catalogRepo) UpdateCategory(category pb.Category) (pb.Category, error) 
 
 func (r *catalogRepo) DeleteCategory(id string) error {
 	result, err := r.db.Exec(`
-		UPDATE category SET deleted_at=current_timestamp WHERE category_id=$1 and deleted_at is null`, id)
+		UPDATE category SET deleted_at=current_timestamp WHERE category_id=$1 AND deleted_at IS NULL`, id)
 	if err != nil {
 		return err
 	}
