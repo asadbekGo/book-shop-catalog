@@ -27,23 +27,27 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 func init() { proto.RegisterFile("catalog_service.proto", fileDescriptor_69979759328785bd) }
 
 var fileDescriptor_69979759328785bd = []byte{
-	// 255 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x4d, 0x4e, 0x2c, 0x49,
-	0xcc, 0xc9, 0x4f, 0x8f, 0x2f, 0x4e, 0x2d, 0x2a, 0xcb, 0x4c, 0x4e, 0xd5, 0x2b, 0x28, 0xca, 0x2f,
-	0xc9, 0x17, 0x62, 0x87, 0x0a, 0x4b, 0xf1, 0x42, 0x19, 0x10, 0x71, 0xa3, 0xa5, 0x2c, 0x5c, 0x7c,
-	0xce, 0x10, 0x91, 0x60, 0x88, 0x06, 0x21, 0x03, 0x2e, 0x1e, 0xe7, 0xa2, 0xd4, 0xc4, 0x92, 0x54,
-	0xc7, 0xd2, 0x92, 0x8c, 0xfc, 0x22, 0x21, 0x7e, 0x3d, 0x98, 0x16, 0x88, 0x80, 0x14, 0xba, 0x80,
-	0x90, 0x1e, 0x17, 0xa7, 0x7b, 0x6a, 0x09, 0x94, 0x23, 0x00, 0x97, 0x75, 0xaa, 0xf4, 0x4c, 0x09,
-	0x4a, 0x2d, 0xc4, 0x54, 0x6f, 0xce, 0xc5, 0x05, 0x57, 0x5f, 0x8c, 0xa4, 0xc1, 0x27, 0xb3, 0xb8,
-	0x04, 0xa4, 0x41, 0x1c, 0x4d, 0x03, 0x44, 0xbc, 0xb8, 0x00, 0xe4, 0xb4, 0xd0, 0x82, 0x14, 0x52,
-	0x9c, 0x66, 0xc0, 0xc5, 0xe3, 0x92, 0x9a, 0x93, 0x0a, 0xd7, 0x81, 0xe9, 0x3a, 0x3e, 0xb8, 0x88,
-	0x6b, 0x6e, 0x41, 0x49, 0xa5, 0x90, 0x19, 0x17, 0x1f, 0xc4, 0xfb, 0xce, 0x89, 0x25, 0xa9, 0xe9,
-	0xf9, 0x45, 0x95, 0x42, 0x82, 0x70, 0x15, 0x30, 0x21, 0x29, 0x4c, 0x21, 0x21, 0x23, 0x2e, 0x6e,
-	0xf7, 0xd4, 0x12, 0x38, 0x17, 0xd3, 0x22, 0x2c, 0x7a, 0x6c, 0xb8, 0x78, 0x11, 0x7a, 0x32, 0x53,
-	0xb1, 0x85, 0x85, 0x24, 0x86, 0x2e, 0x78, 0x68, 0x98, 0x71, 0xf1, 0x41, 0x42, 0x83, 0x64, 0x97,
-	0xf2, 0x41, 0xc2, 0x04, 0x8f, 0x63, 0xd1, 0x42, 0xc5, 0x49, 0xe0, 0xc4, 0x23, 0x39, 0xc6, 0x0b,
-	0x8f, 0xe4, 0x18, 0x1f, 0x3c, 0x92, 0x63, 0x9c, 0xf1, 0x58, 0x8e, 0x21, 0x89, 0x0d, 0x9c, 0x80,
-	0x8c, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x5f, 0x77, 0x9c, 0x8d, 0x71, 0x02, 0x00, 0x00,
+	// 319 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x93, 0x41, 0x4a, 0xc3, 0x40,
+	0x14, 0x86, 0xcd, 0xa6, 0xd5, 0x67, 0x13, 0xeb, 0x60, 0x11, 0xb3, 0xc8, 0x01, 0xba, 0x08, 0xa5,
+	0x42, 0xbb, 0x71, 0x63, 0xa2, 0x04, 0xc1, 0x95, 0xe2, 0x5a, 0x62, 0xfb, 0xa8, 0xa1, 0x95, 0x89,
+	0x99, 0x51, 0xc8, 0x35, 0x5c, 0x79, 0x24, 0x97, 0x1e, 0x41, 0xe2, 0x45, 0x24, 0x7d, 0xc9, 0xd4,
+	0xce, 0x44, 0x69, 0x77, 0xf3, 0xbe, 0xf9, 0xff, 0xe4, 0x7f, 0x3f, 0x0c, 0xf4, 0x26, 0xb1, 0x8c,
+	0x17, 0x7c, 0x76, 0x2f, 0x30, 0x7b, 0x4d, 0x26, 0xe8, 0xa7, 0x19, 0x97, 0x9c, 0xb5, 0x2b, 0xec,
+	0xda, 0xd5, 0x81, 0xf8, 0xf0, 0xad, 0x05, 0x4e, 0x48, 0xe4, 0x96, 0x0c, 0x6c, 0x00, 0x9d, 0x30,
+	0xc3, 0x58, 0xe2, 0xf9, 0x8b, 0x7c, 0xe4, 0x19, 0x3b, 0xf0, 0x6b, 0x0b, 0x01, 0x57, 0x07, 0xcc,
+	0x87, 0xbd, 0x08, 0x65, 0x35, 0x74, 0xd5, 0x6d, 0x90, 0x5f, 0x4d, 0x6f, 0xf0, 0xd9, 0xd4, 0x8f,
+	0x01, 0x94, 0x5e, 0xfc, 0x32, 0x5c, 0x27, 0x42, 0x96, 0x86, 0x63, 0xcd, 0x40, 0x5c, 0xa4, 0x65,
+	0xb4, 0xbb, 0x74, 0xba, 0x4d, 0xb4, 0x01, 0x74, 0x2e, 0x70, 0x81, 0xca, 0x61, 0xa6, 0x73, 0x14,
+	0xb9, 0x7c, 0x4a, 0x65, 0xce, 0x46, 0xe0, 0xd0, 0xfa, 0x61, 0x2c, 0x71, 0xc6, 0xb3, 0x9c, 0x1d,
+	0x2a, 0x45, 0x8d, 0x5c, 0x13, 0xb1, 0x21, 0xec, 0x47, 0x28, 0xd5, 0x68, 0xfe, 0xa8, 0xc1, 0x73,
+	0x06, 0xf6, 0xca, 0x93, 0x60, 0x53, 0x17, 0x27, 0x86, 0x4b, 0xb5, 0x31, 0x02, 0x87, 0xda, 0xd8,
+	0x3a, 0xa9, 0x43, 0x9d, 0xfc, 0x13, 0x56, 0x6f, 0xa5, 0x0f, 0x40, 0xad, 0x04, 0x9c, 0xcf, 0x99,
+	0xbd, 0xd2, 0x73, 0x3e, 0x77, 0xd7, 0x47, 0xd6, 0x87, 0x76, 0x84, 0x72, 0x79, 0x34, 0x3f, 0xac,
+	0x69, 0xc7, 0xb0, 0x5b, 0x69, 0x05, 0x3b, 0x5a, 0xbb, 0xaa, 0x0b, 0xe8, 0x35, 0x50, 0x91, 0x96,
+	0x81, 0x68, 0xf9, 0x0d, 0x02, 0xf9, 0x00, 0xb4, 0xf0, 0x1f, 0x99, 0xb4, 0x65, 0x83, 0xee, 0x47,
+	0xe1, 0x59, 0x9f, 0x85, 0x67, 0x7d, 0x15, 0x9e, 0xf5, 0xfe, 0xed, 0xed, 0x3c, 0xb4, 0x96, 0xaf,
+	0xe5, 0xf4, 0x27, 0x00, 0x00, 0xff, 0xff, 0xfe, 0x31, 0x5b, 0xbd, 0x5e, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -68,6 +72,11 @@ type CatalogServiceClient interface {
 	GetCategories(ctx context.Context, in *ListReq, opts ...grpc.CallOption) (*CategoryListResp, error)
 	UpdateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
 	DeleteCategory(ctx context.Context, in *ByIdReq, opts ...grpc.CallOption) (*Empty, error)
+	CreateBook(ctx context.Context, in *Book, opts ...grpc.CallOption) (*Book, error)
+	GetBook(ctx context.Context, in *ByIdReq, opts ...grpc.CallOption) (*Book, error)
+	GetBooks(ctx context.Context, in *BookListReq, opts ...grpc.CallOption) (*BookListResp, error)
+	UpdateBook(ctx context.Context, in *Book, opts ...grpc.CallOption) (*Book, error)
+	DeleteBook(ctx context.Context, in *ByIdReq, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type catalogServiceClient struct {
@@ -168,6 +177,51 @@ func (c *catalogServiceClient) DeleteCategory(ctx context.Context, in *ByIdReq, 
 	return out, nil
 }
 
+func (c *catalogServiceClient) CreateBook(ctx context.Context, in *Book, opts ...grpc.CallOption) (*Book, error) {
+	out := new(Book)
+	err := c.cc.Invoke(ctx, "/catalog.CatalogService/CreateBook", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) GetBook(ctx context.Context, in *ByIdReq, opts ...grpc.CallOption) (*Book, error) {
+	out := new(Book)
+	err := c.cc.Invoke(ctx, "/catalog.CatalogService/GetBook", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) GetBooks(ctx context.Context, in *BookListReq, opts ...grpc.CallOption) (*BookListResp, error) {
+	out := new(BookListResp)
+	err := c.cc.Invoke(ctx, "/catalog.CatalogService/GetBooks", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) UpdateBook(ctx context.Context, in *Book, opts ...grpc.CallOption) (*Book, error) {
+	out := new(Book)
+	err := c.cc.Invoke(ctx, "/catalog.CatalogService/UpdateBook", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *catalogServiceClient) DeleteBook(ctx context.Context, in *ByIdReq, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/catalog.CatalogService/DeleteBook", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CatalogServiceServer is the server API for CatalogService service.
 type CatalogServiceServer interface {
 	CreateAuthor(context.Context, *Author) (*Author, error)
@@ -180,6 +234,11 @@ type CatalogServiceServer interface {
 	GetCategories(context.Context, *ListReq) (*CategoryListResp, error)
 	UpdateCategory(context.Context, *Category) (*Category, error)
 	DeleteCategory(context.Context, *ByIdReq) (*Empty, error)
+	CreateBook(context.Context, *Book) (*Book, error)
+	GetBook(context.Context, *ByIdReq) (*Book, error)
+	GetBooks(context.Context, *BookListReq) (*BookListResp, error)
+	UpdateBook(context.Context, *Book) (*Book, error)
+	DeleteBook(context.Context, *ByIdReq) (*Empty, error)
 }
 
 // UnimplementedCatalogServiceServer can be embedded to have forward compatible implementations.
@@ -215,6 +274,21 @@ func (*UnimplementedCatalogServiceServer) UpdateCategory(ctx context.Context, re
 }
 func (*UnimplementedCatalogServiceServer) DeleteCategory(ctx context.Context, req *ByIdReq) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCategory not implemented")
+}
+func (*UnimplementedCatalogServiceServer) CreateBook(ctx context.Context, req *Book) (*Book, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateBook not implemented")
+}
+func (*UnimplementedCatalogServiceServer) GetBook(ctx context.Context, req *ByIdReq) (*Book, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBook not implemented")
+}
+func (*UnimplementedCatalogServiceServer) GetBooks(ctx context.Context, req *BookListReq) (*BookListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBooks not implemented")
+}
+func (*UnimplementedCatalogServiceServer) UpdateBook(ctx context.Context, req *Book) (*Book, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateBook not implemented")
+}
+func (*UnimplementedCatalogServiceServer) DeleteBook(ctx context.Context, req *ByIdReq) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteBook not implemented")
 }
 
 func RegisterCatalogServiceServer(s *grpc.Server, srv CatalogServiceServer) {
@@ -401,6 +475,96 @@ func _CatalogService_DeleteCategory_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CatalogService_CreateBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Book)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).CreateBook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/catalog.CatalogService/CreateBook",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).CreateBook(ctx, req.(*Book))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_GetBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).GetBook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/catalog.CatalogService/GetBook",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).GetBook(ctx, req.(*ByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_GetBooks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BookListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).GetBooks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/catalog.CatalogService/GetBooks",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).GetBooks(ctx, req.(*BookListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_UpdateBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Book)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).UpdateBook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/catalog.CatalogService/UpdateBook",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).UpdateBook(ctx, req.(*Book))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CatalogService_DeleteBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatalogServiceServer).DeleteBook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/catalog.CatalogService/DeleteBook",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatalogServiceServer).DeleteBook(ctx, req.(*ByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _CatalogService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "catalog.CatalogService",
 	HandlerType: (*CatalogServiceServer)(nil),
@@ -444,6 +608,26 @@ var _CatalogService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteCategory",
 			Handler:    _CatalogService_DeleteCategory_Handler,
+		},
+		{
+			MethodName: "CreateBook",
+			Handler:    _CatalogService_CreateBook_Handler,
+		},
+		{
+			MethodName: "GetBook",
+			Handler:    _CatalogService_GetBook_Handler,
+		},
+		{
+			MethodName: "GetBooks",
+			Handler:    _CatalogService_GetBooks_Handler,
+		},
+		{
+			MethodName: "UpdateBook",
+			Handler:    _CatalogService_UpdateBook_Handler,
+		},
+		{
+			MethodName: "DeleteBook",
+			Handler:    _CatalogService_DeleteBook_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
