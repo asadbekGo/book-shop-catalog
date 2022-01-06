@@ -14,13 +14,11 @@ func (r *catalogRepo) CreateBookCategory(bookCategory pb.BookCategory) (pb.BookC
 		bookCategory.BookId,
 		bookCategory.CategoryId,
 	).Scan(&id)
-
 	if err != nil {
 		return pb.BookCategoryResp{}, err
 	}
 
 	bookCategoryResp, err := r.GetBookCategory(id)
-
 	if err != nil {
 		return pb.BookCategoryResp{}, err
 	}
@@ -38,7 +36,6 @@ func (r *catalogRepo) GetBookCategory(id string) (pb.BookCategoryResp, error) {
 		&book.AuthorId,
 		&book.CreatedAt,
 	)
-
 	if err != nil {
 		return pb.BookCategoryResp{}, err
 	}
@@ -111,6 +108,7 @@ func (r *catalogRepo) GetBookCategories(page, limit int64) ([]*pb.BookCategoryRe
 
 	for rows.Next() {
 		var id string
+		var bookCategory pb.BookCategoryResp
 		err = rows.Scan(
 			&id,
 		)
@@ -119,7 +117,7 @@ func (r *catalogRepo) GetBookCategories(page, limit int64) ([]*pb.BookCategoryRe
 			return nil, 0, err
 		}
 
-		bookCategory, err := r.GetBookCategory(id)
+		bookCategory, err = r.GetBookCategory(id)
 		if err != nil {
 			return nil, 0, err
 		}

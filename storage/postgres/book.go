@@ -15,7 +15,6 @@ func (r *catalogRepo) CreateBook(book pb.Book) (pb.Book, error) {
 		book.Name,
 		book.AuthorId,
 	).Scan(&id)
-
 	if err != nil {
 		return pb.Book{}, err
 	}
@@ -40,7 +39,6 @@ func (r *catalogRepo) GetBook(id string) (pb.Book, error) {
 		&book.CreatedAt,
 		&book.UpdatedAt,
 	)
-
 	if err != nil {
 		return pb.Book{}, err
 	}
