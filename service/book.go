@@ -3,11 +3,12 @@ package service
 import (
 	"context"
 
-	pb "github.com/asadbekGo/book-shop-catalog/genproto/catalog_service"
-	l "github.com/asadbekGo/book-shop-catalog/pkg/logger"
 	"github.com/gofrs/uuid"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	pb "github.com/asadbekGo/book-shop-catalog/genproto/catalog_service"
+	l "github.com/asadbekGo/book-shop-catalog/pkg/logger"
 )
 
 func (s *CatalogService) CreateBook(ctx context.Context, req *pb.Book) (*pb.Book, error) {
