@@ -107,7 +107,7 @@ func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]
 	sbc := sqlbuilder.NewSelectBuilder()
 	sbc.Select("count(*)")
 	sbc.From("book b")
-	sb.Where("b.deleted_at IS NULL")
+	sbc.Where("b.deleted_at IS NULL")
 
 	if val, ok := filters["categories"]; ok && val != "" {
 		args := utils.StringSliceToInterfaceSlice(utils.ParseFilter(val))
