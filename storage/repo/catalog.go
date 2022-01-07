@@ -1,7 +1,7 @@
 package repo
 
 import (
-	pb "github.com/asadbekGo/book-shop-catalog/genproto"
+	pb "github.com/asadbekGo/book-shop-catalog/genproto/catalog_service"
 )
 
 // CatalogStorageI ...
@@ -18,9 +18,14 @@ type CatalogStorageI interface {
 	UpdateCategory(pb.Category) (pb.Category, error)
 	DeleteCategory(id string) error
 
-	CreateBook(pb.NewBook) (pb.Book, error)
+	CreateBook(pb.Book) (pb.Book, error)
 	GetBook(id string) (pb.Book, error)
-	GetBooks(page, limit int64) ([]*pb.Book, int64, error)
-	UpdateBook(pb.NewBook) (pb.Book, error)
+	GetBooks(page, limit int64, filters map[string]string) ([]*pb.Book, int64, error)
+	UpdateBook(pb.Book) (pb.Book, error)
 	DeleteBook(id string) error
+
+	CreateBookCategory(pb.BookCategory) (pb.BookCategoryResp, error)
+	GetBookCategory(id string) (pb.BookCategoryResp, error)
+	GetBookCategories(page, limit int64) ([]*pb.BookCategoryResp, int64, error)
+	DeleteBookCategory(pb.BookCategory) error
 }
