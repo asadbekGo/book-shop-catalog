@@ -3,7 +3,10 @@ package postgres
 import (
 	"database/sql"
 
+	"github.com/huandu/go-sqlbuilder"
+
 	pb "github.com/asadbekGo/book-shop-catalog/genproto/catalog_service"
+	"github.com/asadbekGo/book-shop-catalog/pkg/utils"
 )
 
 func (r *catalogRepo) CreateBook(book pb.Book) (pb.Book, error) {
@@ -48,9 +51,29 @@ func (r *catalogRepo) GetBook(id string) (pb.Book, error) {
 
 func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]*pb.Book, int64, error) {
 	offset := (page - 1) * limit
+	sb := sqlbuilder.NewSelectBuilder()
 
-	rows, err := r.db.Query(`
-		SELECT book_id, name, author_id, created_at, updated_at FROM book WHERE deleted_at IS NULL LIMIT $1 OFFSET $2`, limit, offset)
+	sb.Select("b.book_id", "b.name", "b.author_id", "b.created_at", "b.updated_at")
+	sb.From("book b")
+	sb.Where("b.deleted_at IS NULL")
+
+	if val, ok := filters["categories"]; ok && val != "" {
+		args := utils.StringSliceToInterfaceSlice(utils.ParseFilter(val))
+		sb.JoinWithOption("LEFT", "book_category bc", "b.book_id=bc.book_id")
+		sb.Where((sb.In("bc.category_id", args...)))
+	}
+
+	if val, ok := filters["author"]; ok && val != "" {
+		sb.Where(sb.Equal("author_id", val))
+	}
+
+	sb.GroupBy("b.book_id", "b.name")
+	sb.Limit(int(limit))
+	sb.Offset(int(offset))
+
+	query, args := sb.BuildWithFlavor(sqlbuilder.PostgreSQL)
+
+	rows, err := r.db.Queryx(query, args)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -81,7 +104,26 @@ func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]
 		books = append(books, &book)
 	}
 
-	err = r.db.QueryRow(`SELECT count(*) FROM book WHERE deleted_ad IS NULL`).Scan(&count)
+	sbc := sqlbuilder.NewSelectBuilder()
+	sbc.Select("count(*)")
+	sbc.From("book b")
+	sb.Where("b.deleted_at IS NULL")
+
+	if val, ok := filters["categories"]; ok && val != "" {
+		args := utils.StringSliceToInterfaceSlice(utils.ParseFilter(val))
+		sbc.JoinWithOption("LEFT", "book_category bc", "b.book_id=bc.book_id")
+		sbc.Where((sbc.In("bc.category_id", args...)))
+	}
+
+	if val, ok := filters["author"]; ok && val != "" {
+		sbc.Where(sbc.Equal("author_id", val))
+	}
+
+	sbc.GroupBy("b.book_id", "b.name")
+
+	query, args = sbc.BuildWithFlavor(sqlbuilder.PostgreSQL)
+
+	err = r.db.QueryRow(query, args...).Scan(&count)
 	if err != nil {
 		return nil, 0, err
 	}
