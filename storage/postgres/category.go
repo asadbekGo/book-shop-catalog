@@ -103,7 +103,7 @@ func (r *catalogRepo) GetCategories(page, limit int64) ([]*pb.Category, int64, e
 		categories = append(categories, &category)
 	}
 
-	err = r.db.QueryRow(`SELECT count(*) FROM category`).Scan(&count)
+	err = r.db.QueryRow(`SELECT count(*) FROM category WHERE deleted_at IS NULL`).Scan(&count)
 	if err != nil {
 		return nil, 0, err
 	}
