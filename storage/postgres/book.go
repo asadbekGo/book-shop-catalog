@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/huandu/go-sqlbuilder"
 
@@ -9,7 +10,7 @@ import (
 	"github.com/asadbekGo/book-shop-catalog/pkg/utils"
 )
 
-func (r *catalogRepo) CreateBook(book pb.Book) (pb.Book, error) {
+func (r *catalogRepo) CreateBook(book pb.Book) (pb.BookResp, error) {
 	var id string
 	err := r.db.QueryRow(`
 		INSERT INTO book(book_id, name, author_id, updated_at) 
@@ -19,37 +20,44 @@ func (r *catalogRepo) CreateBook(book pb.Book) (pb.Book, error) {
 		book.AuthorId,
 	).Scan(&id)
 	if err != nil {
-		return pb.Book{}, err
+		return pb.BookResp{}, err
 	}
 
-	book, err = r.GetBook(id)
+	bookResp, err := r.GetBook(id)
 
 	if err != nil {
-		return pb.Book{}, err
+		return pb.BookResp{}, err
 	}
 
-	return book, nil
+	return bookResp, nil
 }
 
-func (r *catalogRepo) GetBook(id string) (pb.Book, error) {
-	var book pb.Book
+func (r *catalogRepo) GetBook(id string) (pb.BookResp, error) {
+	var book pb.BookResp
+	var authorId string
 	err := r.db.QueryRow(`
 		SELECT book_id, name, author_id, created_at, updated_at
 		FROM book WHERE book_id=$1 AND deleted_at IS NULL`, id).Scan(
 		&book.Id,
 		&book.Name,
-		&book.AuthorId,
+		&authorId,
 		&book.CreatedAt,
 		&book.UpdatedAt,
 	)
 	if err != nil {
-		return pb.Book{}, err
+		return pb.BookResp{}, err
 	}
+	author, err := r.GetAuthor(authorId)
+	if err != nil {
+		return pb.BookResp{}, err
+	}
+
+	book.Author = &author
 
 	return book, nil
 }
 
-func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]*pb.Book, int64, error) {
+func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]*pb.BookResp, int64, error) {
 	offset := (page - 1) * limit
 	sb := sqlbuilder.NewSelectBuilder()
 
@@ -67,13 +75,13 @@ func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]
 		sb.Where(sb.Equal("author_id", val))
 	}
 
+	sb.Where("(SELECT count(*) FROM author WHERE deleted_at IS NULL AND author_id=b.author_id) <> 0")
 	sb.GroupBy("b.book_id", "b.name")
 	sb.Limit(int(limit))
 	sb.Offset(int(offset))
 
 	query, args := sb.BuildWithFlavor(sqlbuilder.PostgreSQL)
-
-	rows, err := r.db.Queryx(query, args)
+	rows, err := r.db.Queryx(query, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -83,16 +91,17 @@ func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]
 	defer rows.Close() // nolint:errcheck
 
 	var (
-		books []*pb.Book
+		books []*pb.BookResp
 		count int64
 	)
 
 	for rows.Next() {
-		var book pb.Book
+		var book pb.BookResp
+		var authorId string
 		err = rows.Scan(
 			&book.Id,
 			&book.Name,
-			&book.AuthorId,
+			&authorId,
 			&book.CreatedAt,
 			&book.UpdatedAt,
 		)
@@ -100,6 +109,13 @@ func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]
 		if err != nil {
 			return nil, 0, err
 		}
+
+		author, err := r.GetAuthor(authorId)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		book.Author = &author
 
 		books = append(books, &book)
 	}
@@ -122,6 +138,7 @@ func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]
 	sbc.GroupBy("b.book_id", "b.name")
 
 	query, args = sbc.BuildWithFlavor(sqlbuilder.PostgreSQL)
+	fmt.Println(query)
 
 	err = r.db.QueryRow(query, args...).Scan(&count)
 	if err != nil {
@@ -131,24 +148,25 @@ func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]
 	return books, count, nil
 }
 
-func (r *catalogRepo) UpdateBook(book pb.Book) (pb.Book, error) {
+func (r *catalogRepo) UpdateBook(book pb.Book) (pb.BookResp, error) {
 	result, err := r.db.Exec(`
-		UPDATE book SET name=$1, updated_at=current_timestamp
-		WHERE book_id=$2 AND deleted_at IS NULL`,
-		book.Name, book.Id)
+		UPDATE book SET name=$1, author_id=$2, updated_at=current_timestamp
+		WHERE book_id=$3 AND deleted_at IS NULL AND 
+		(SELECT count(*) FROM author WHERE deleted_at IS NULL AND author_id=$4) <> 0`,
+		book.Name, book.AuthorId, book.Id, book.AuthorId)
 	if err != nil {
-		return pb.Book{}, err
+		return pb.BookResp{}, err
 	}
 	if i, _ := result.RowsAffected(); i == 0 {
-		return pb.Book{}, sql.ErrNoRows
+		return pb.BookResp{}, sql.ErrNoRows
 	}
 
-	book, err = r.GetBook(book.Id)
+	bookResp, err := r.GetBook(book.Id)
 	if err != nil {
-		return pb.Book{}, err
+		return pb.BookResp{}, err
 	}
 
-	return book, nil
+	return bookResp, nil
 }
 
 func (r *catalogRepo) DeleteBook(id string) error {

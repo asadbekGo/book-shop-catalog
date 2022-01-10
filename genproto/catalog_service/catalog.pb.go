@@ -176,8 +176,6 @@ type Book struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	AuthorId             string   `protobuf:"bytes,3,opt,name=authorId,proto3" json:"authorId,omitempty"`
-	CreatedAt            string   `protobuf:"bytes,4,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
-	UpdatedAt            string   `protobuf:"bytes,5,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -237,14 +235,79 @@ func (m *Book) GetAuthorId() string {
 	return ""
 }
 
-func (m *Book) GetCreatedAt() string {
+type BookResp struct {
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Author               *Author  `protobuf:"bytes,3,opt,name=author,proto3" json:"author,omitempty"`
+	CreatedAt            string   `protobuf:"bytes,4,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	UpdatedAt            string   `protobuf:"bytes,5,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *BookResp) Reset()         { *m = BookResp{} }
+func (m *BookResp) String() string { return proto.CompactTextString(m) }
+func (*BookResp) ProtoMessage()    {}
+func (*BookResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0abbfcf058acdf89, []int{3}
+}
+func (m *BookResp) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *BookResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_BookResp.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *BookResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BookResp.Merge(m, src)
+}
+func (m *BookResp) XXX_Size() int {
+	return m.Size()
+}
+func (m *BookResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_BookResp.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BookResp proto.InternalMessageInfo
+
+func (m *BookResp) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *BookResp) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *BookResp) GetAuthor() *Author {
+	if m != nil {
+		return m.Author
+	}
+	return nil
+}
+
+func (m *BookResp) GetCreatedAt() string {
 	if m != nil {
 		return m.CreatedAt
 	}
 	return ""
 }
 
-func (m *Book) GetUpdatedAt() string {
+func (m *BookResp) GetUpdatedAt() string {
 	if m != nil {
 		return m.UpdatedAt
 	}
@@ -262,7 +325,7 @@ func (m *ByIdReq) Reset()         { *m = ByIdReq{} }
 func (m *ByIdReq) String() string { return proto.CompactTextString(m) }
 func (*ByIdReq) ProtoMessage()    {}
 func (*ByIdReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0abbfcf058acdf89, []int{3}
+	return fileDescriptor_0abbfcf058acdf89, []int{4}
 }
 func (m *ByIdReq) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -310,7 +373,7 @@ func (m *ListReq) Reset()         { *m = ListReq{} }
 func (m *ListReq) String() string { return proto.CompactTextString(m) }
 func (*ListReq) ProtoMessage()    {}
 func (*ListReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0abbfcf058acdf89, []int{4}
+	return fileDescriptor_0abbfcf058acdf89, []int{5}
 }
 func (m *ListReq) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -365,7 +428,7 @@ func (m *AuthorListResp) Reset()         { *m = AuthorListResp{} }
 func (m *AuthorListResp) String() string { return proto.CompactTextString(m) }
 func (*AuthorListResp) ProtoMessage()    {}
 func (*AuthorListResp) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0abbfcf058acdf89, []int{5}
+	return fileDescriptor_0abbfcf058acdf89, []int{6}
 }
 func (m *AuthorListResp) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -420,7 +483,7 @@ func (m *CategoryListResp) Reset()         { *m = CategoryListResp{} }
 func (m *CategoryListResp) String() string { return proto.CompactTextString(m) }
 func (*CategoryListResp) ProtoMessage()    {}
 func (*CategoryListResp) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0abbfcf058acdf89, []int{6}
+	return fileDescriptor_0abbfcf058acdf89, []int{7}
 }
 func (m *CategoryListResp) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -476,7 +539,7 @@ func (m *BookListReq) Reset()         { *m = BookListReq{} }
 func (m *BookListReq) String() string { return proto.CompactTextString(m) }
 func (*BookListReq) ProtoMessage()    {}
 func (*BookListReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0abbfcf058acdf89, []int{7}
+	return fileDescriptor_0abbfcf058acdf89, []int{8}
 }
 func (m *BookListReq) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -527,18 +590,18 @@ func (m *BookListReq) GetFilters() map[string]string {
 }
 
 type BookListResp struct {
-	Books                []*Book  `protobuf:"bytes,1,rep,name=books,proto3" json:"books,omitempty"`
-	Count                int64    `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Books                []*BookResp `protobuf:"bytes,1,rep,name=books,proto3" json:"books,omitempty"`
+	Count                int64       `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
 func (m *BookListResp) Reset()         { *m = BookListResp{} }
 func (m *BookListResp) String() string { return proto.CompactTextString(m) }
 func (*BookListResp) ProtoMessage()    {}
 func (*BookListResp) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0abbfcf058acdf89, []int{8}
+	return fileDescriptor_0abbfcf058acdf89, []int{9}
 }
 func (m *BookListResp) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -567,7 +630,7 @@ func (m *BookListResp) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_BookListResp proto.InternalMessageInfo
 
-func (m *BookListResp) GetBooks() []*Book {
+func (m *BookListResp) GetBooks() []*BookResp {
 	if m != nil {
 		return m.Books
 	}
@@ -593,7 +656,7 @@ func (m *BookCategory) Reset()         { *m = BookCategory{} }
 func (m *BookCategory) String() string { return proto.CompactTextString(m) }
 func (*BookCategory) ProtoMessage()    {}
 func (*BookCategory) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0abbfcf058acdf89, []int{9}
+	return fileDescriptor_0abbfcf058acdf89, []int{10}
 }
 func (m *BookCategory) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -637,7 +700,7 @@ func (m *BookCategory) GetCategoryId() string {
 }
 
 type BookCategoryResp struct {
-	Book                 *Book       `protobuf:"bytes,1,opt,name=book,proto3" json:"book,omitempty"`
+	Book                 *BookResp   `protobuf:"bytes,1,opt,name=book,proto3" json:"book,omitempty"`
 	Category             []*Category `protobuf:"bytes,2,rep,name=category,proto3" json:"category,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
 	XXX_unrecognized     []byte      `json:"-"`
@@ -648,7 +711,7 @@ func (m *BookCategoryResp) Reset()         { *m = BookCategoryResp{} }
 func (m *BookCategoryResp) String() string { return proto.CompactTextString(m) }
 func (*BookCategoryResp) ProtoMessage()    {}
 func (*BookCategoryResp) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0abbfcf058acdf89, []int{10}
+	return fileDescriptor_0abbfcf058acdf89, []int{11}
 }
 func (m *BookCategoryResp) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -677,7 +740,7 @@ func (m *BookCategoryResp) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_BookCategoryResp proto.InternalMessageInfo
 
-func (m *BookCategoryResp) GetBook() *Book {
+func (m *BookCategoryResp) GetBook() *BookResp {
 	if m != nil {
 		return m.Book
 	}
@@ -703,7 +766,7 @@ func (m *BookCategoryListResp) Reset()         { *m = BookCategoryListResp{} }
 func (m *BookCategoryListResp) String() string { return proto.CompactTextString(m) }
 func (*BookCategoryListResp) ProtoMessage()    {}
 func (*BookCategoryListResp) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0abbfcf058acdf89, []int{11}
+	return fileDescriptor_0abbfcf058acdf89, []int{12}
 }
 func (m *BookCategoryListResp) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -756,7 +819,7 @@ func (m *Empty) Reset()         { *m = Empty{} }
 func (m *Empty) String() string { return proto.CompactTextString(m) }
 func (*Empty) ProtoMessage()    {}
 func (*Empty) Descriptor() ([]byte, []int) {
-	return fileDescriptor_0abbfcf058acdf89, []int{12}
+	return fileDescriptor_0abbfcf058acdf89, []int{13}
 }
 func (m *Empty) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -789,6 +852,7 @@ func init() {
 	proto.RegisterType((*Author)(nil), "catalog.Author")
 	proto.RegisterType((*Category)(nil), "catalog.Category")
 	proto.RegisterType((*Book)(nil), "catalog.Book")
+	proto.RegisterType((*BookResp)(nil), "catalog.BookResp")
 	proto.RegisterType((*ByIdReq)(nil), "catalog.ByIdReq")
 	proto.RegisterType((*ListReq)(nil), "catalog.ListReq")
 	proto.RegisterType((*AuthorListResp)(nil), "catalog.AuthorListResp")
@@ -805,39 +869,40 @@ func init() {
 func init() { proto.RegisterFile("catalog.proto", fileDescriptor_0abbfcf058acdf89) }
 
 var fileDescriptor_0abbfcf058acdf89 = []byte{
-	// 501 bytes of a gzipped FileDescriptorProto
+	// 521 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x54, 0xcb, 0x6e, 0xd3, 0x40,
-	0x14, 0x65, 0x6c, 0xa7, 0x4e, 0x6f, 0xd3, 0x12, 0x46, 0x15, 0x72, 0x2b, 0x64, 0xb5, 0x66, 0x53,
-	0x16, 0x44, 0x82, 0x6e, 0x50, 0x11, 0x8b, 0x06, 0x5a, 0xc9, 0x12, 0x1b, 0x46, 0xea, 0x8a, 0xd5,
-	0x24, 0x1e, 0x52, 0x2b, 0x8f, 0x31, 0xf6, 0x04, 0xc9, 0x5b, 0x96, 0x7c, 0x01, 0x9f, 0xc1, 0x67,
-	0xb0, 0xe4, 0x13, 0x50, 0xf8, 0x11, 0x34, 0xcf, 0x4e, 0x8a, 0x82, 0x8a, 0xd8, 0xcd, 0xbd, 0xe7,
-	0xce, 0x39, 0xc7, 0x67, 0x66, 0x0c, 0xbb, 0x63, 0x2a, 0xe8, 0x8c, 0x4f, 0x06, 0x55, 0xcd, 0x05,
-	0xc7, 0xb1, 0x29, 0xb3, 0x6b, 0xd8, 0x3a, 0x5f, 0x8a, 0x6b, 0x5e, 0xe3, 0x3d, 0x08, 0xca, 0x22,
-	0x41, 0x47, 0xe8, 0x64, 0x9b, 0x04, 0x65, 0x81, 0x31, 0x44, 0x0b, 0x3a, 0x67, 0x49, 0xa0, 0x3a,
-	0x6a, 0x8d, 0x1f, 0xc1, 0xf6, 0xb8, 0x66, 0x54, 0xb0, 0xe2, 0x5c, 0x24, 0xa1, 0x02, 0x6e, 0x1a,
-	0x12, 0x5d, 0x56, 0x85, 0x41, 0x23, 0x8d, 0xba, 0x46, 0xf6, 0x05, 0x41, 0xf7, 0x35, 0x15, 0x6c,
-	0xc2, 0xeb, 0xf6, 0x4e, 0x62, 0x29, 0x40, 0x45, 0x6b, 0xb6, 0x10, 0x57, 0x57, 0xf9, 0x1b, 0xa3,
-	0xe6, 0x75, 0xd6, 0xcd, 0x44, 0x7f, 0x35, 0xd3, 0xb9, 0x6d, 0xe6, 0x33, 0x82, 0x68, 0xc8, 0xf9,
-	0xf4, 0x4e, 0x46, 0x0e, 0xa1, 0x4b, 0x55, 0x46, 0x79, 0x61, 0x6c, 0xb8, 0xfa, 0xbf, 0x4c, 0x1c,
-	0x40, 0x3c, 0x6c, 0xf3, 0x82, 0xb0, 0x8f, 0xb7, 0x6d, 0x64, 0xa7, 0x10, 0xbf, 0x2d, 0x1b, 0x21,
-	0x21, 0x0c, 0x51, 0x45, 0x27, 0x4c, 0x81, 0x21, 0x51, 0x6b, 0xbc, 0x0f, 0x9d, 0x59, 0x39, 0x2f,
-	0x85, 0xb2, 0x19, 0x12, 0x5d, 0x64, 0xef, 0x60, 0x4f, 0x9f, 0xa5, 0xde, 0xda, 0x54, 0xf8, 0x09,
-	0xc4, 0xda, 0x69, 0x93, 0xa0, 0xa3, 0xf0, 0x64, 0xe7, 0xf9, 0xfd, 0x81, 0xbd, 0x07, 0x7a, 0x92,
-	0x58, 0x5c, 0x52, 0x8e, 0xf9, 0x72, 0xe1, 0x28, 0x55, 0x91, 0xbd, 0x87, 0xbe, 0x3d, 0x33, 0x47,
-	0xfa, 0x0c, 0x60, 0xac, 0x7b, 0x25, 0xb3, 0xbc, 0x0f, 0x1c, 0xaf, 0x1d, 0x27, 0xde, 0xd0, 0x06,
-	0xf2, 0x6f, 0x08, 0x76, 0xe4, 0x21, 0xfc, 0xf3, 0x97, 0xe2, 0x97, 0x10, 0x7f, 0x28, 0x67, 0x82,
-	0xd5, 0x4d, 0x12, 0x2a, 0xfd, 0x63, 0xa7, 0xef, 0x11, 0x0e, 0x2e, 0xf5, 0xcc, 0xc5, 0x42, 0xd4,
-	0x2d, 0xb1, 0x3b, 0x0e, 0xcf, 0xa0, 0xe7, 0x03, 0xb8, 0x0f, 0xe1, 0x94, 0xb5, 0x26, 0x7c, 0xb9,
-	0x94, 0xa2, 0x9f, 0xe8, 0x6c, 0x69, 0x6f, 0x81, 0x2e, 0xce, 0x82, 0x17, 0x28, 0xcb, 0xa1, 0x77,
-	0x23, 0xd0, 0x54, 0xf8, 0x31, 0x74, 0x46, 0x9c, 0x4f, 0x6d, 0x0c, 0xbb, 0x6b, 0x36, 0x88, 0xc6,
-	0x36, 0x7c, 0xfd, 0xa5, 0xa6, 0x72, 0x4f, 0xe2, 0x21, 0x6c, 0xc9, 0xf1, 0xdc, 0x5e, 0x03, 0x53,
-	0xc9, 0x67, 0x60, 0x92, 0x6c, 0xf3, 0xc2, 0x38, 0xf2, 0x3a, 0x59, 0x01, 0x7d, 0x9f, 0x47, 0xd9,
-	0x3a, 0x86, 0x48, 0xee, 0x56, 0x4c, 0x7f, 0xb8, 0x52, 0x10, 0x7e, 0x0a, 0x5d, 0x4b, 0x92, 0x04,
-	0x9b, 0xce, 0xd0, 0x8d, 0x64, 0x53, 0xd8, 0xf7, 0x55, 0x5c, 0x00, 0xaf, 0xa0, 0x37, 0xf2, 0xfa,
-	0x26, 0x87, 0x83, 0x35, 0x45, 0xdf, 0x1a, 0x59, 0x1b, 0xdf, 0x10, 0x4d, 0x0c, 0x9d, 0x8b, 0x79,
-	0x25, 0xda, 0x61, 0xff, 0xfb, 0x2a, 0x45, 0x3f, 0x56, 0x29, 0xfa, 0xb9, 0x4a, 0xd1, 0xd7, 0x5f,
-	0xe9, 0xbd, 0xd1, 0x96, 0xfa, 0x7f, 0x9d, 0xfe, 0x0e, 0x00, 0x00, 0xff, 0xff, 0xbd, 0x09, 0x39,
-	0x16, 0xd0, 0x04, 0x00, 0x00,
+	0x14, 0x65, 0x6c, 0x27, 0x4e, 0x6f, 0x4b, 0x09, 0xa3, 0x0a, 0xb9, 0x15, 0xb2, 0x8a, 0x25, 0x54,
+	0x58, 0x10, 0x09, 0xba, 0x41, 0x45, 0x2c, 0x1a, 0x68, 0x24, 0x4b, 0xb0, 0x60, 0xa4, 0xae, 0x58,
+	0x39, 0xf1, 0x90, 0x58, 0x79, 0x8c, 0xb1, 0x27, 0x48, 0xfe, 0x05, 0xb6, 0x6c, 0xf8, 0x0c, 0x3e,
+	0x83, 0x25, 0x9f, 0x80, 0xc2, 0x8f, 0xa0, 0x79, 0x76, 0x52, 0x1a, 0x14, 0xc4, 0x6e, 0xee, 0x3d,
+	0x77, 0xce, 0x39, 0x73, 0x66, 0x6c, 0xb8, 0x3d, 0xca, 0x78, 0x36, 0x63, 0xe3, 0x5e, 0x59, 0x31,
+	0xce, 0x70, 0xa8, 0xcb, 0x64, 0x02, 0xed, 0xf3, 0x25, 0x9f, 0xb0, 0x0a, 0xef, 0x83, 0x57, 0xe4,
+	0x11, 0x3a, 0x46, 0x8f, 0x76, 0x88, 0x57, 0xe4, 0x18, 0x43, 0xb0, 0xc8, 0xe6, 0x34, 0xf2, 0x64,
+	0x47, 0xae, 0xf1, 0x7d, 0xd8, 0x19, 0x55, 0x34, 0xe3, 0x34, 0x3f, 0xe7, 0x91, 0x2f, 0x81, 0xab,
+	0x86, 0x40, 0x97, 0x65, 0xae, 0xd1, 0x40, 0xa1, 0xb6, 0x91, 0x7c, 0x46, 0xd0, 0x79, 0x95, 0x71,
+	0x3a, 0x66, 0x55, 0xb3, 0x95, 0x58, 0x0c, 0x50, 0x66, 0x15, 0x5d, 0xf0, 0xcb, 0xcb, 0xf4, 0xb5,
+	0x56, 0x73, 0x3a, 0xeb, 0x66, 0x82, 0xbf, 0x9a, 0x69, 0x5d, 0x37, 0x33, 0x80, 0xa0, 0xcf, 0xd8,
+	0x74, 0x2b, 0x1f, 0x47, 0xd0, 0xc9, 0x64, 0x44, 0x69, 0xae, 0x5d, 0xd8, 0x3a, 0xf9, 0x82, 0xa0,
+	0x23, 0x88, 0x08, 0xad, 0xcb, 0xad, 0xc8, 0x4e, 0xa0, 0xad, 0x36, 0x4b, 0xaa, 0xdd, 0x67, 0x77,
+	0x7a, 0xe6, 0x62, 0xd4, 0x35, 0x10, 0x0d, 0xff, 0xd7, 0xe9, 0x0e, 0x21, 0xec, 0x37, 0x69, 0x4e,
+	0xe8, 0xc7, 0xeb, 0x9e, 0x92, 0x53, 0x08, 0xdf, 0x14, 0x35, 0x17, 0x10, 0x86, 0xa0, 0xcc, 0xc6,
+	0x54, 0x82, 0x3e, 0x91, 0x6b, 0x7c, 0x00, 0xad, 0x59, 0x31, 0x2f, 0xb8, 0xf4, 0xec, 0x13, 0x55,
+	0x24, 0xef, 0x60, 0x5f, 0xb9, 0x53, 0x5b, 0xeb, 0x12, 0x3f, 0x86, 0x50, 0xf9, 0xac, 0x23, 0x74,
+	0xec, 0xdf, 0x74, 0x0e, 0x83, 0x0b, 0xca, 0x11, 0x5b, 0x2e, 0x2c, 0xa5, 0x2c, 0x92, 0xf7, 0xd0,
+	0x35, 0x8f, 0xc1, 0x92, 0x3e, 0x05, 0x18, 0xa9, 0x5e, 0x41, 0x0d, 0xef, 0x5d, 0xcb, 0x6b, 0xc6,
+	0x89, 0x33, 0xb4, 0x81, 0xfc, 0x1b, 0x82, 0x5d, 0x71, 0x2b, 0xff, 0x7c, 0x52, 0xfc, 0x02, 0xc2,
+	0x0f, 0xc5, 0x8c, 0xd3, 0xaa, 0x8e, 0x7c, 0xa9, 0xff, 0xc0, 0xea, 0x3b, 0x84, 0xbd, 0x81, 0x9a,
+	0xb9, 0x58, 0xf0, 0xaa, 0x21, 0x66, 0xc7, 0xd1, 0x19, 0xec, 0xb9, 0x00, 0xee, 0x82, 0x3f, 0xa5,
+	0x8d, 0x0e, 0x5f, 0x2c, 0x85, 0xe8, 0xa7, 0x6c, 0xb6, 0x34, 0x4f, 0x42, 0x15, 0x67, 0xde, 0x73,
+	0x94, 0xbc, 0x85, 0xbd, 0x2b, 0x81, 0xba, 0xc4, 0x27, 0xd0, 0x1a, 0x32, 0x36, 0xfd, 0x33, 0x06,
+	0xf3, 0xda, 0x88, 0xc2, 0x37, 0x24, 0x30, 0x50, 0x74, 0xf6, 0x7b, 0xbb, 0x07, 0x6d, 0x31, 0x9e,
+	0x9a, 0xa7, 0xa0, 0x2b, 0xf1, 0x8d, 0xe9, 0x34, 0x9b, 0x34, 0xd7, 0xae, 0x9c, 0x4e, 0x32, 0x81,
+	0xae, 0xcb, 0x23, 0xad, 0x3d, 0x84, 0x40, 0xec, 0x96, 0x4c, 0x37, 0x3a, 0x93, 0x30, 0x7e, 0x02,
+	0x1d, 0x43, 0x14, 0x79, 0x9b, 0xee, 0xd2, 0x8e, 0x24, 0x53, 0x38, 0x70, 0x95, 0x6c, 0x10, 0x2f,
+	0x61, 0x6f, 0xe8, 0xf4, 0x75, 0x1e, 0x87, 0x6b, 0xaa, 0xae, 0x3d, 0xb2, 0x36, 0xbe, 0x21, 0x9e,
+	0x10, 0x5a, 0x17, 0xf3, 0x92, 0x37, 0xfd, 0xee, 0xf7, 0x55, 0x8c, 0x7e, 0xac, 0x62, 0xf4, 0x73,
+	0x15, 0xa3, 0xaf, 0xbf, 0xe2, 0x5b, 0xc3, 0xb6, 0xfc, 0x41, 0x9e, 0xfe, 0x0e, 0x00, 0x00, 0xff,
+	0xff, 0xdc, 0xa2, 0x76, 0x42, 0x31, 0x05, 0x00, 0x00,
 }
 
 func (m *Author) Marshal() (dAtA []byte, err error) {
@@ -981,6 +1046,54 @@ func (m *Book) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if len(m.AuthorId) > 0 {
+		i -= len(m.AuthorId)
+		copy(dAtA[i:], m.AuthorId)
+		i = encodeVarintCatalog(dAtA, i, uint64(len(m.AuthorId)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintCatalog(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Id) > 0 {
+		i -= len(m.Id)
+		copy(dAtA[i:], m.Id)
+		i = encodeVarintCatalog(dAtA, i, uint64(len(m.Id)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *BookResp) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *BookResp) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *BookResp) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.UpdatedAt) > 0 {
 		i -= len(m.UpdatedAt)
 		copy(dAtA[i:], m.UpdatedAt)
@@ -995,10 +1108,15 @@ func (m *Book) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x22
 	}
-	if len(m.AuthorId) > 0 {
-		i -= len(m.AuthorId)
-		copy(dAtA[i:], m.AuthorId)
-		i = encodeVarintCatalog(dAtA, i, uint64(len(m.AuthorId)))
+	if m.Author != nil {
+		{
+			size, err := m.Author.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintCatalog(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x1a
 	}
@@ -1538,6 +1656,30 @@ func (m *Book) Size() (n int) {
 	}
 	l = len(m.AuthorId)
 	if l > 0 {
+		n += 1 + l + sovCatalog(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *BookResp) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Id)
+	if l > 0 {
+		n += 1 + l + sovCatalog(uint64(l))
+	}
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovCatalog(uint64(l))
+	}
+	if m.Author != nil {
+		l = m.Author.Size()
 		n += 1 + l + sovCatalog(uint64(l))
 	}
 	l = len(m.CreatedAt)
@@ -2272,6 +2414,157 @@ func (m *Book) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.AuthorId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCatalog(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *BookResp) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCatalog
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: BookResp: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: BookResp: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCatalog
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Id = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCatalog
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Author", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCatalog
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthCatalog
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Author == nil {
+				m.Author = &Author{}
+			}
+			if err := m.Author.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
@@ -3013,7 +3306,7 @@ func (m *BookListResp) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Books = append(m.Books, &Book{})
+			m.Books = append(m.Books, &BookResp{})
 			if err := m.Books[len(m.Books)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -3233,7 +3526,7 @@ func (m *BookCategoryResp) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Book == nil {
-				m.Book = &Book{}
+				m.Book = &BookResp{}
 			}
 			if err := m.Book.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err

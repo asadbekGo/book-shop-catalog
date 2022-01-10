@@ -11,7 +11,7 @@ import (
 	l "github.com/asadbekGo/book-shop-catalog/pkg/logger"
 )
 
-func (s *CatalogService) CreateBook(ctx context.Context, req *pb.Book) (*pb.Book, error) {
+func (s *CatalogService) CreateBook(ctx context.Context, req *pb.Book) (*pb.BookResp, error) {
 	id, err := uuid.NewV4()
 	if err != nil {
 		s.logger.Error("failed while generating uuid", l.Error(err))
@@ -28,7 +28,7 @@ func (s *CatalogService) CreateBook(ctx context.Context, req *pb.Book) (*pb.Book
 	return &book, nil
 }
 
-func (s *CatalogService) GetBook(ctx context.Context, req *pb.ByIdReq) (*pb.Book, error) {
+func (s *CatalogService) GetBook(ctx context.Context, req *pb.ByIdReq) (*pb.BookResp, error) {
 	book, err := s.storage.Catalog().GetBook(req.Id)
 	if err != nil {
 		s.logger.Error("failed to get book", l.Error(err))
@@ -51,7 +51,7 @@ func (s *CatalogService) GetBooks(ctx context.Context, req *pb.BookListReq) (*pb
 	}, nil
 }
 
-func (s *CatalogService) UpdateBook(ctx context.Context, req *pb.Book) (*pb.Book, error) {
+func (s *CatalogService) UpdateBook(ctx context.Context, req *pb.Book) (*pb.BookResp, error) {
 	book, err := s.storage.Catalog().UpdateBook(*req)
 	if err != nil {
 		s.logger.Error("failed to update book", l.Error(err))
