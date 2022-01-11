@@ -8,20 +8,24 @@ import (
 
 func (r *catalogRepo) CreateCategory(category pb.Category) (pb.Category, error) {
 	var id string
-	var parentUUID interface{}
-
-	if category.ParentUUID == "" {
-		parentUUID = nil
-	} else {
-		parentUUID = category.ParentUUID
+	// var parentUUID interface{}
+	var parentId sql.NullString
+	if category.ParentUUID != "" {
+		parentId.String = category.ParentUUID
+		parentId.Valid = true
 	}
+	// if category.ParentUUID == "" {
+	// 	parentUUID = nil
+	// } else {
+	// 	parentUUID = category.ParentUUID
+	// }
 
 	err := r.db.QueryRow(`
 	INSERT INTO category(category_id, name, parent_uuid, updated_at)
 		VALUES ($1, $2, $3, current_timestamp) RETURNING category_id`,
 		category.Id,
 		category.Name,
-		parentUUID,
+		parentId,
 	).Scan(&id)
 	if err != nil {
 		return pb.Category{}, err

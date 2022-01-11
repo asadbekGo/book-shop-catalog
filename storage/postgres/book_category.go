@@ -51,18 +51,21 @@ func (r *catalogRepo) GetBookCategory(id string) ([]*pb.Category, error) {
 	var categories []*pb.Category
 
 	for rows.Next() {
+		var parent_uuid sql.NullString
 		var category pb.Category
 		err = rows.Scan(
 			&category.Id,
 			&category.Name,
-			&category.ParentUUID,
+			&parent_uuid,
 			&category.CreatedAt,
 		)
 
 		if err != nil {
 			return nil, err
 		}
-
+		if parent_uuid.Valid {
+			category.ParentUUID = parent_uuid.String
+		}
 		categories = append(categories, &category)
 	}
 
