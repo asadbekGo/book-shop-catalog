@@ -34,7 +34,6 @@ func (s *CatalogService) GetBook(ctx context.Context, req *pb.ByIdReq) (*pb.Book
 		s.logger.Error("failed to get book", l.Error(err))
 		return nil, status.Error(codes.Internal, "failed to get book")
 	}
-
 	return &book, nil
 }
 

@@ -2,12 +2,11 @@ package postgres
 
 import (
 	"database/sql"
-	"fmt"
 
 	pb "github.com/asadbekGo/book-shop-catalog/genproto/catalog_service"
 )
 
-func (r *catalogRepo) CreateBookCategory(bookCategory pb.BookCategory) (pb.BookCategoryResp, error) {
+func (r *catalogRepo) CreateBookCategory(bookCategory pb.BookCategory) (pb.BookResp, error) {
 	var id string
 	err := r.db.QueryRow(`
 		INSERT INTO book_category(book_id, category_id) 
@@ -16,39 +15,18 @@ func (r *catalogRepo) CreateBookCategory(bookCategory pb.BookCategory) (pb.BookC
 		bookCategory.CategoryId,
 	).Scan(&id)
 	if err != nil {
-		return pb.BookCategoryResp{}, err
+		return pb.BookResp{}, err
 	}
 
-	bookCategoryResp, err := r.GetBookCategory(id)
+	book, err := r.GetBook(id)
 	if err != nil {
-		return pb.BookCategoryResp{}, err
+		return pb.BookResp{}, err
 	}
 
-	return bookCategoryResp, nil
+	return book, nil
 }
 
-func (r *catalogRepo) GetBookCategory(id string) (pb.BookCategoryResp, error) {
-	var book pb.BookResp
-	var authorId string
-	err := r.db.QueryRow(`
-		SELECT book_id, name, author_id, created_at
-		FROM book WHERE book_id=$1 AND deleted_at IS NULL`, id).Scan(
-		&book.Id,
-		&book.Name,
-		&authorId,
-		&book.CreatedAt,
-	)
-	if err != nil {
-		return pb.BookCategoryResp{}, err
-	}
-
-	author, err := r.GetAuthor(authorId)
-	if err != nil {
-		return pb.BookCategoryResp{}, err
-	}
-
-	book.Author = &author
-
+func (r *catalogRepo) GetBookCategory(id string) ([]*pb.Category, error) {
 	rows, err := r.db.Query(`
 			SELECT
 				c.category_id,
@@ -63,10 +41,10 @@ func (r *catalogRepo) GetBookCategory(id string) (pb.BookCategoryResp, error) {
 				category as c using(category_id)
 			WHERE b.book_id = $1 AND bc.deleted_at IS NULL`, id)
 	if err != nil {
-		return pb.BookCategoryResp{}, err
+		return nil, err
 	}
 	if err = rows.Err(); err != nil {
-		return pb.BookCategoryResp{}, err
+		return nil, err
 	}
 	defer rows.Close() // nolint:errcheck
 
@@ -82,71 +60,16 @@ func (r *catalogRepo) GetBookCategory(id string) (pb.BookCategoryResp, error) {
 		)
 
 		if err != nil {
-			return pb.BookCategoryResp{}, err
+			return nil, err
 		}
 
 		categories = append(categories, &category)
 	}
 
-	var BookCategoryResp pb.BookCategoryResp
-
-	BookCategoryResp.Book = &book
-	BookCategoryResp.Category = categories
-
-	return BookCategoryResp, nil
-}
-
-func (r *catalogRepo) GetBookCategories(page, limit int64) ([]*pb.BookCategoryResp, int64, error) {
-	offset := (page - 1) * limit
-
-	rows, err := r.db.Query(`
-		SELECT bc.book_id FROM book_category as bc WHERE bc.deleted_at IS NULL 
-		AND (SELECT count(*) FROM book WHERE deleted_at IS NULL AND book_id=bc.book_id) <> 0
-		GROUP BY book_id LIMIT $1 OFFSET $2`, limit, offset)
-	if err != nil {
-		return nil, 0, err
-	}
-	if err = rows.Err(); err != nil {
-		return nil, 0, err
-	}
-	defer rows.Close() // nolint:errcheck
-
-	var (
-		bookCategoryList []*pb.BookCategoryResp
-		count            int64
-	)
-
-	for rows.Next() {
-		var id string
-		var bookCategory pb.BookCategoryResp
-		err = rows.Scan(
-			&id,
-		)
-
-		if err != nil {
-			return nil, 0, err
-		}
-
-		bookCategory, err = r.GetBookCategory(id)
-		if err != nil {
-			return nil, 0, err
-		}
-
-		bookCategoryList = append(bookCategoryList, &bookCategory)
-	}
-
-	err = r.db.QueryRow(`SELECT count(*) FROM book_category as bc WHERE bc.deleted_at IS NULL
-	AND (SELECT count(*) FROM book WHERE deleted_at IS NULL AND book_id=bc.book_id) <> 0
-	GROUP BY book_id`).Scan(&count)
-	if err != nil {
-		return nil, 0, err
-	}
-
-	return bookCategoryList, count, nil
+	return categories, nil
 }
 
 func (r *catalogRepo) DeleteBookCategory(bookCategory pb.BookCategory) error {
-	fmt.Println(bookCategory)
 	result, err := r.db.Exec(`
 		UPDATE book_category SET deleted_at=current_timestamp WHERE book_id=$1 AND category_id=$2 AND deleted_at IS NULL`,
 		bookCategory.BookId, bookCategory.CategoryId)
