@@ -24,8 +24,7 @@ type CatalogStorageI interface {
 	UpdateBook(pb.Book) (pb.BookResp, error)
 	DeleteBook(id string) error
 
-	CreateBookCategory(pb.BookCategory) (pb.BookCategoryResp, error)
-	GetBookCategory(id string) (pb.BookCategoryResp, error)
-	GetBookCategories(page, limit int64) ([]*pb.BookCategoryResp, int64, error)
+	CreateBookCategory(pb.BookCategory) (pb.BookResp, error)
+	GetBookCategory(id string) ([]*pb.Category, error)
 	DeleteBookCategory(pb.BookCategory) error
 }

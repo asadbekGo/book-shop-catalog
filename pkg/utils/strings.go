@@ -1,6 +1,8 @@
 package utils
 
-import "strings"
+import (
+	"strings"
+)
 
 func ParseFilter(s string) []string {
 	return strings.Split(s, ",")
