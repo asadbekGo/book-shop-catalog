@@ -6,7 +6,7 @@ import (
 	pb "github.com/asadbekGo/book-shop-catalog/genproto/catalog_service"
 )
 
-func (r *catalogRepo) CreateBookCategory(bookCategory pb.BookCategory) (pb.BookResp, error) {
+func CreateBookCategory(r *catalogRepo, bookCategory pb.BookCategory) error {
 	var id string
 	err := r.db.QueryRow(`
 		INSERT INTO book_category(book_id, category_id) 
@@ -15,18 +15,13 @@ func (r *catalogRepo) CreateBookCategory(bookCategory pb.BookCategory) (pb.BookR
 		bookCategory.CategoryId,
 	).Scan(&id)
 	if err != nil {
-		return pb.BookResp{}, err
+		return err
 	}
 
-	book, err := r.GetBook(id)
-	if err != nil {
-		return pb.BookResp{}, err
-	}
-
-	return book, nil
+	return nil
 }
 
-func (r *catalogRepo) GetBookCategory(id string) ([]*pb.Category, error) {
+func GetBookCategory(r *catalogRepo, id string) ([]*pb.Category, error) {
 	rows, err := r.db.Query(`
 			SELECT
 				c.category_id,
@@ -39,7 +34,7 @@ func (r *catalogRepo) GetBookCategory(id string) ([]*pb.Category, error) {
 				book as b using(book_id)
 			JOIN
 				category as c using(category_id)
-			WHERE b.book_id = $1 AND bc.deleted_at IS NULL`, id)
+			WHERE b.book_id = $1`, id)
 	if err != nil {
 		return nil, err
 	}
@@ -69,10 +64,9 @@ func (r *catalogRepo) GetBookCategory(id string) ([]*pb.Category, error) {
 	return categories, nil
 }
 
-func (r *catalogRepo) DeleteBookCategory(bookCategory pb.BookCategory) error {
-	result, err := r.db.Exec(`
-		UPDATE book_category SET deleted_at=current_timestamp WHERE book_id=$1 AND category_id=$2 AND deleted_at IS NULL`,
-		bookCategory.BookId, bookCategory.CategoryId)
+func DeleteBookCategory(r *catalogRepo, id string) error {
+	result, err := r.db.Exec(`DELETE FROM book_category WHERE book_id=$1`,
+		id)
 	if err != nil {
 		return err
 	}
