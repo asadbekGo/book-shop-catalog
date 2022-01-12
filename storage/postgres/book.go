@@ -2,7 +2,6 @@ package postgres
 
 import (
 	"database/sql"
-	"strings"
 
 	"github.com/huandu/go-sqlbuilder"
 
@@ -82,24 +81,13 @@ func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]
 	if val, ok := filters["category"]; ok && val != "" {
 		args := utils.StringSliceToInterfaceSlice(utils.ParseFilter(val))
 		sb.JoinWithOption("LEFT", "book_category bc", "b.book_id=bc.book_id")
-
-		argsId, err := ArgsToCategoryId(r, args)
-		if err != nil {
-			return nil, 0, err
-		}
-		sb.Where(sb.In("bc.category_id", argsId...))
+		sb.Where(sb.In("bc.category_id", args...))
 	}
 
 	if val, ok := filters["author"]; ok && val != "" {
-		var id string
+		args := utils.StringSliceToInterfaceSlice(utils.ParseFilter(val))
 		sb.JoinWithOption("LEFT", "author a", "b.author_id=a.author_id")
-		value := strings.ToLower(val)
-		err := r.db.QueryRow(`SELECT a.author_id FROM author as a
-			WHERE (SELECT lower(name) FROM author WHERE author_id = a.author_id)=$1`, &value).Scan(&id)
-		if err != nil {
-			return nil, 0, err
-		}
-		sb.Where(sb.Equal("b.author_id", id))
+		sb.Where(sb.In("b.author_id", args...))
 	}
 
 	sb.Where("(SELECT count(*) FROM author WHERE deleted_at IS NULL AND author_id=b.author_id) <> 0")
@@ -163,25 +151,15 @@ func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]
 	sbc.Where("b.deleted_at IS NULL")
 
 	if val, ok := filters["category"]; ok && val != "" {
-		var argsCategory, argsId []interface{}
-		argsCategory = utils.StringSliceToInterfaceSlice(utils.ParseFilter(val))
+		args := utils.StringSliceToInterfaceSlice(utils.ParseFilter(val))
 		sbc.JoinWithOption("LEFT", "book_category bc", "b.book_id=bc.book_id")
-		argsId, err = ArgsToCategoryId(r, argsCategory)
-		if err != nil {
-			return nil, 0, err
-		}
-		sbc.Where((sbc.In("bc.category_id", argsId...)))
+		sbc.Where((sbc.In("bc.category_id", args...)))
 	}
 
 	if val, ok := filters["author"]; ok && val != "" {
-		var id string
-		value := strings.ToLower(val)
-		err = r.db.QueryRow(`SELECT a.author_id FROM author as a
-		WHERE (SELECT lower(name) FROM author WHERE author_id = a.author_id)=$1`, &value).Scan(&id)
-		if err != nil {
-			return nil, 0, err
-		}
-		sbc.Where(sbc.Equal("author_id", id))
+		args := utils.StringSliceToInterfaceSlice(utils.ParseFilter(val))
+		sbc.JoinWithOption("LEFT", "author a", "b.author_id=a.author_id")
+		sbc.Where(sbc.In("b.author_id", args...))
 	}
 
 	sbc.GroupBy("b.book_id")
@@ -244,44 +222,4 @@ func (r *catalogRepo) DeleteBook(id string) error {
 	}
 
 	return nil
-}
-
-// ArgsToCategoryId ...
-func ArgsToCategoryId(r *catalogRepo, args []interface{}) ([]interface{}, error) {
-	sbCategory := sqlbuilder.NewSelectBuilder()
-	sbCategory.Select("category_id").From("category").Where(sbCategory.In("name", args...))
-	query, argsCategory := sbCategory.BuildWithFlavor(sqlbuilder.PostgreSQL)
-
-	rows, err := r.db.Query(query, argsCategory...)
-	if err != nil {
-		return nil, err
-	}
-	if err = rows.Err(); err != nil {
-		return nil, err
-	}
-	defer rows.Close() // nolint:errcheck
-
-	var values string
-	var i int = 0
-	for rows.Next() {
-
-		if i != 0 {
-			values += ","
-		}
-		i++
-		var value string
-
-		err = rows.Scan(
-			&value,
-		)
-		if err != nil {
-			return nil, err
-		}
-
-		values += value
-	}
-
-	argsId := utils.StringSliceToInterfaceSlice(utils.ParseFilter(values))
-
-	return argsId, nil
 }
