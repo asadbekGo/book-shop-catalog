@@ -23,6 +23,16 @@ func (r *catalogRepo) CreateBook(book pb.Book) (pb.BookResp, error) {
 		return pb.BookResp{}, err
 	}
 
+	for _, category := range book.Categories {
+		var bookCategory pb.BookCategory
+		bookCategory.BookId = id
+		bookCategory.CategoryId = category
+		err = CreateBookCategory(r, bookCategory)
+		if err != nil {
+			return pb.BookResp{}, err
+		}
+	}
+
 	bookResp, err := r.GetBook(id)
 	if err != nil {
 		return pb.BookResp{}, err
@@ -52,7 +62,7 @@ func (r *catalogRepo) GetBook(id string) (pb.BookResp, error) {
 	}
 	book.Author = &author
 
-	categories, err := r.GetBookCategory(book.Id)
+	categories, err := GetBookCategory(r, book.Id)
 	if err != nil {
 		return pb.BookResp{}, err
 	}
@@ -140,7 +150,7 @@ func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]
 
 	for _, book := range books {
 		var categories []*pb.Category
-		categories, err = r.GetBookCategory(book.Id)
+		categories, err = GetBookCategory(r, book.Id)
 		if err != nil {
 			return nil, 0, err
 		}
@@ -148,7 +158,7 @@ func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]
 	}
 
 	sbc := sqlbuilder.NewSelectBuilder()
-	sbc.Select("count(*)")
+	sbc.Select("ROW_NUMBER() over (order by b.book_id) as r_number")
 	sbc.From("book b")
 	sbc.Where("b.deleted_at IS NULL")
 
@@ -174,8 +184,10 @@ func (r *catalogRepo) GetBooks(page, limit int64, filters map[string]string) ([]
 		sbc.Where(sbc.Equal("author_id", id))
 	}
 
+	sbc.GroupBy("b.book_id")
+	sbc.OrderBy("r_number desc")
+	sbc.Limit(1)
 	query, args = sbc.BuildWithFlavor(sqlbuilder.PostgreSQL)
-
 	err = r.db.QueryRow(query, args...).Scan(&count)
 	if err != nil {
 		return nil, 0, err
@@ -195,6 +207,22 @@ func (r *catalogRepo) UpdateBook(book pb.Book) (pb.BookResp, error) {
 	}
 	if i, _ := result.RowsAffected(); i == 0 {
 		return pb.BookResp{}, sql.ErrNoRows
+	}
+
+	err = DeleteBookCategory(r, book.Id)
+	if err != nil {
+		return pb.BookResp{}, err
+	}
+
+	for _, category := range book.Categories {
+		var bookCategory pb.BookCategory
+		bookCategory.BookId = book.Id
+		bookCategory.CategoryId = category
+
+		err = CreateBookCategory(r, bookCategory)
+		if err != nil {
+			return pb.BookResp{}, err
+		}
 	}
 
 	bookResp, err := r.GetBook(book.Id)
